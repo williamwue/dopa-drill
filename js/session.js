@@ -254,7 +254,7 @@ export function levelPlan(prog, N, rng, now = Date.now()) {
   const front = frontier(prog);
   const warm = ORDER.filter((id) => isMastered(prog, id));
   // Rusty skills (id040) take the review slots first; the share does not change.
-  const rusty = rustyOf(prog, now);
+  const rusty = rustyOf(prog, now).filter((id) => ORDER.includes(id));
   // Recent mastered skills first, then the frontier (least practised first).
   const warmPick = warm.slice(-6);
   const nWarm = Math.min(warmPick.length, Math.max(1, Math.round(N * 0.3)));
@@ -308,10 +308,10 @@ export { signature };
 // A problem from the child's first days with a skill comes back once it is
 // mastered and a month has passed, to compare "that day" with today.
 export const CAPSULE = { days: 30 };
-export function pickCapsule(prog, now = Date.now()) {
+export function pickCapsule(prog, now = Date.now(), allowed = null) {
   let best = null;
   for (const [id, r] of Object.entries(prog.skills)) {
-    if (!r.mastered || !r.first || !SKILL[id]) continue;
+    if (!r.mastered || !r.first || !SKILL[id] || (allowed && !allowed.has(id))) continue;
     r.first.forEach((e, i) => {
       if (e.used || !e.p || !e.at || now - e.at < CAPSULE.days * 864e5) return;
       if (!best || e.at < best.entry.at) best = { skill: id, index: i, entry: e };

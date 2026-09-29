@@ -1,8 +1,9 @@
 // Problem generation and layouts. Every problem is a small grid of cells
 // (digits, operators, lines) plus an ordered list of input steps; each step
-// is one digit typed into one cell. Layout families:
+// is one digit (or a signed-answer minus) typed into one cell. Layout families:
 //   column add/sub (with decimals), column multiplication, long division,
 //   and horizontal expressions (integers, decimals, fractions, remainders).
+import { rational, calculate, rationalText } from './rational.js';
 import { SKILL } from './skills.js';
 import { t } from './i18n.js';
 import jaContent from '../locales/content.ja.js';
@@ -328,6 +329,77 @@ function fracAns(n, d, mixed) {
 const fracTok = (n, d, whole) => ({ f: [n, d, whole] });
 
 const GEN = {
+  textbookOrder(rng, { op, bracket }) {
+    const r = R(rng), a = r(0, 30), b = r(2, 9), c = r(2, 9);
+    const sub = rng() < 0.5;
+    let tokens, text, answer;
+    const symbol = op === 'mul' ? '×' : '÷';
+    if (bracket) {
+      const total = op === 'mul' ? r(2, 20) : b * c;
+      const part = sub ? r(0, 20) : r(0, total);
+      const first = sub ? total + part : total - part;
+      answer = op === 'mul' ? total * b : total / b;
+      text = `(${first} ${sub ? '−' : '+'} ${part}) ${symbol} ${b}`;
+      tokens = [{ op: '(' }, { n: first }, { op: sub ? '−' : '＋' }, { n: part }, { op: ')' }, { op: symbol }, { n: b }];
+    } else {
+      const left = op === 'mul' ? b : b * c;
+      const term = op === 'mul' ? b * c : b;
+      const first = sub ? a + term : a;
+      answer = sub ? a : a + term;
+      text = `${first} ${sub ? '−' : '+'} ${left} ${symbol} ${c}`;
+      tokens = [{ n: first }, { op: sub ? '−' : '＋' }, { n: left }, { op: symbol }, { n: c }];
+    }
+    return buildH([...tokens, { br: true }, { op: '＝' }, { ans: answer }], { text, answer: String(answer), title: t('textbook.order'), titleKey: 'textbook.order', helpKey: bracket ? 'textbook.bracketHelp' : 'textbook.orderHelp', help: t(bracket ? 'textbook.bracketHelp' : 'textbook.orderHelp') });
+  },
+  textbookMul(rng, { mode }) {
+    const r = R(rng), b = r(mode === '2digit' || mode === '3digit' ? 0 : 2, 9);
+    let a;
+    if (mode === 'hundreds') a = r(1, 9) * 100;
+    else if (mode === 'middle-zero') a = r(1, 9) * 100 + r(1, 9);
+    else if (mode === 'end-zero') a = r(1, 99) * 10;
+    else if (mode === 'carry') a = r(2, 9) * 100 + r(5, 9) * 10 + r(5, 9);
+    else a = mode === '2digit' ? r(10, 99) : r(100, 999);
+    return buildMul(a, b);
+  },
+  textbookDiv(rng, { mode }) {
+    // Enumerating the bounded domain guarantees the chosen subskill, even with
+    // a constant RNG. In particular no retry fallback can lose a zero in q.
+    const r = R(rng), b = r(2, 9), candidates = [];
+    for (let a = 10; a <= 999; a++) {
+      const q = Math.floor(a / b), rem = a % b;
+      if (mode === '2digit-exact' && !(a < 100 && rem === 0)) continue;
+      if (mode === '3digit-exact' && !(a >= 100 && rem === 0)) continue;
+      if (mode === 'short-quotient' && !(a >= 100 && q < 100 && rem === 0)) continue;
+      if (mode === 'zero-quotient' && !(q >= 10 && String(q).includes('0') && rem === 0)) continue;
+      if (mode === 'remainder' && rem === 0) continue;
+      candidates.push(a);
+    }
+    return buildDiv(pickOf(rng, candidates), b);
+  },
+  rational(rng, { mode }) {
+    const r = R(rng);
+    const operand = () => rational(r(-12, 12), rng() < 0.5 ? 1 : r(2, 9));
+    const a = operand(); let b = operand();
+    if (mode === 'div' && b.n === '0') b = rational(r(1, 12), r(1, 9));
+    const unary = mode === 'opposite' || mode === 'absolute';
+    const result = mode === 'opposite' ? rational(-BigInt(a.n), a.d)
+      : mode === 'absolute' ? rational(BigInt(a.n) < 0n ? -BigInt(a.n) : a.n, a.d)
+      : calculate(a, mode, b);
+    const token = (v) => v.d === '1' ? { n: v.n } : { f: [v.n, v.d] };
+    const op = { add: '＋', sub: '−', mul: '×', div: '÷' }[mode];
+    const tokens = mode === 'opposite' ? [{ op: '−' }, { op: '(' }, token(a), { op: ')' }]
+      : mode === 'absolute' ? [{ op: '|' }, token(a), { op: '|' }]
+      : [token(a), { op }, { op: '(' }, token(b), { op: ')' }];
+    const answer = rationalText(result);
+    const ans = result.d === '1' ? { ans: result.n } : { fa: [result.n, result.d] };
+    const title = t(`skills.sk7-${mode}`);
+    const text = unary ? `${mode}(${rationalText(a)})` : `${rationalText(a)} ${op} (${rationalText(b)})`;
+    return buildH([...tokens, { br: true }, { op: '＝' }, ans], {
+      title, titleKey: `skills.sk7-${mode}`, helpKey: 'textbook.rationalHelp', text, answer, signed: true, exactAnswer: result, operands: [a, b], operation: mode,
+      help: t('textbook.rationalHelp'),
+    });
+  },
+
   compose(rng, { total }) {
     const a = R(rng)(1, total - 1);
     return buildH([{ n: total }, { w: t('content.problem.word.is') }, { n: a }, { w: t('content.problem.word.and') }, { ans: total - a }], { title: t('content.problem.title.compose'), text: `${total}は${a}と`, displayText: t('content.problem.composeText', { total, part: a }), answer: String(total - a), help: t('content.problem.composeHelp', { part: a, total }) });
@@ -613,7 +685,7 @@ const GEN = {
 const SOURCE_TITLE = new Map(Object.keys(jaContent)
   .filter((key) => key.startsWith('content.problem.title.'))
   .map((key) => [t(key), jaContent[key]]));
-export const signature = (p) => `${SOURCE_TITLE.get(p.title) || p.title}|${p.text}`;
+export const signature = (p) => `${p.titleKey || SOURCE_TITLE.get(p.title) || p.title}|${p.text}`;
 
 // Saved review and time-capsule problems include display strings. Refresh
 // those strings when a problem is loaded after the language has changed.
@@ -659,7 +731,7 @@ function problemDisplayText(p) {
 }
 export function localizeProblem(p) {
   if (!p) return p;
-  p.title = relocalizeStatic(p.title);
+  p.title = p.titleKey ? t(p.titleKey) : relocalizeStatic(p.title);
   const words = (p.cells || []).filter((cell) => cell.kind === 'word').sort((a, b) => a.r - b.r || a.c - b.c);
   for (const word of words) {
     const translated = relocalize(word.text);
@@ -680,9 +752,9 @@ export function localizeProblem(p) {
   for (const step of p.steps || []) {
     step.label = relocalize(step.label);
     if (step.hint) step.hint = relocalize(step.hint);
-    if (step.help?.text) step.help.text = relocalize(step.help.text);
+    if (step.help?.text) step.help.text = p.helpKey ? t(p.helpKey) : relocalize(step.help.text);
   }
-  p.displayText = problemDisplayText(p);
+  p.displayText = p.signed && ['opposite', 'absolute'].includes(p.operation) ? `${p.title}(${rationalText(p.operands[0])})` : problemDisplayText(p);
   const displayAnswer = p.answer
     .replace(/^(\d+) あまり (\d+)$/, (_, quotient, remainder) => t('content.problem.remainderAnswer', { quotient, remainder }))
     .replace(/^(\d+)と(\d+\/\d+)$/, (_, whole, fraction) => t('content.problem.mixedNumber', { whole, fraction }));

@@ -1,3 +1,4 @@
+import { CURRICULA } from './curricula/index.js';
 import { t as uiText, locale, applyTranslations, changeLocale } from './i18n.js';
 // Game flow, input, scoring, and the "director" that turns every event into
 // escalating visuals and sound.
@@ -60,6 +61,55 @@ function openGuide(help = false) {
   clearTimeout(titleRewardTimer);
   S.guideOpen = true;
   guide.open({ help });
+}
+
+const curriculumSelect = $('#curriculum');
+for (const curriculum of Object.values(CURRICULA)) {
+  const option = document.createElement('option');
+  option.value = curriculum.id;
+  option.textContent = curriculum.id === 'general-calculation' ? uiText('textbook.general') : `${curriculum.label} · ${curriculum.edition}`;
+  curriculumSelect.appendChild(option);
+}
+try { curriculumSelect.value = localStorage.getItem('dopa-curriculum') || 'general-calculation'; } catch {}
+if (!curriculumSelect.value) curriculumSelect.value = 'general-calculation';
+curriculumSelect.addEventListener('change', () => {
+  try { localStorage.setItem('dopa-curriculum', curriculumSelect.value); } catch {}
+  renderTextbook();
+});
+function renderTextbook() {
+  const curriculum = CURRICULA[curriculumSelect.value];
+  const general = curriculum.id === 'general-calculation';
+  $('#start').hidden = !general;
+  $('.grades').hidden = !general;
+  $('#open-tree').hidden = !general;
+  const box = $('#textbook-units');
+  box.hidden = general;
+  box.replaceChildren();
+  if (general) return;
+  const note = document.createElement('p');
+  note.textContent = uiText('textbook.scope') + ' ' + uiText(curriculum.units[0].grade === 3 ? 'textbook.limit3' : 'textbook.limit7');
+  box.appendChild(note);
+  const source = document.createElement('a');
+  source.href = curriculum.source; source.target = '_blank'; source.rel = 'noopener noreferrer';
+  source.textContent = uiText('textbook.source'); box.appendChild(source);
+  for (const unit of curriculum.units) {
+    const section = document.createElement('section');
+    const title = document.createElement('h3');
+    title.textContent = `${unit.id.slice(1)}. ${unit.title}${unit.skills.length ? '' : ' · ' + uiText('textbook.uncovered')}`;
+    section.appendChild(title);
+    for (const id of unit.skills) {
+      const button = document.createElement('button');
+      button.type = 'button'; button.className = 'textbook-skill'; button.dataset.skill = id;
+      const record = progress().skills[id];
+      button.textContent = SKILL[id].name;
+      const detail = document.createElement('small');
+      detail.textContent = uiText('textbook.progress', { count: record?.n || 0, stars: starsOf(progress(), id) });
+      button.appendChild(detail);
+      button.addEventListener('click', () => startGame('practice', id));
+      section.appendChild(button);
+    }
+    box.appendChild(section);
+  }
 }
 
 $('#language').value = locale;
@@ -385,7 +435,10 @@ async function setupProblem() {
   S.step = 0; S.wrongInQ = false; S.shownWrong = null;
   $$('.pip').forEach((pp, i) => pp.classList.toggle('now', !extra && i === S.qi));
   $('#qtitle').textContent = p.title;
-  $('#fraction-note').hidden = !p.cells.some((cell) => cell.cls === 'frac-d' && cell.kind === 'input');
+  $('#fraction-note').hidden = !p.signed && !p.cells.some((cell) => cell.cls === 'frac-d' && cell.kind === 'input');
+  $('#fraction-note').textContent = uiText(p.signed ? 'textbook.input' : 'hint.fraction');
+  $('#minus-key').hidden = !p.signed;
+  $('#pad').classList.toggle('signed', !!p.signed);
   $('#qno').textContent = extra ? `EX ${S.extra.solved + 1}` : uiText('ui.main.message142', { value1: S.qi + 1 });
   renderSheet(p);
   $('#step-label').innerHTML = '&nbsp;';
@@ -1293,7 +1346,8 @@ function planCapsule() {
   S.capsuleAt = -1;
   if (!recording() || !['level', 'grade', 'practice'].includes(S.plan.mode) || S.plan.placement || S.N < 4) return;
   if ((store.load().capsule || {}).lastDay === store.dayKey()) return;
-  const c = pickCapsule(progress());
+  const allowed = new Set(S.plan.mode === 'practice' ? [S.plan.skill] : ORDER);
+  const c = pickCapsule(progress(), Date.now(), allowed);
   if (!c) return;
   const k = Math.max(1, Math.min(S.N - 2, Math.floor(S.N / 2)));
   const p = structuredClone(c.entry.p);
@@ -1418,6 +1472,7 @@ function startReview() {
   startGame('review');
 }
 function refreshTitle() {
+  renderTextbook();
   const prog = progress();
   const n = prog.review.length;
   $('#start-review').hidden = !n;
@@ -2547,7 +2602,7 @@ addEventListener('keydown', (e) => {
   if (S.scene) return;
   if (!$('#day-log').hidden) { if (e.key === 'Escape') $('#day-log').hidden = true; return; }
   if (e.key === 'Escape' && S.screen !== 'title') { e.preventDefault(); askToTitle(); return; }
-  if (/^[0-9]$/.test(e.key)) { audio.unlock(); press(e.key); e.preventDefault(); }
+  if (/^[0-9]$/.test(e.key) || (S.problem?.signed && e.key === '-')) { audio.unlock(); press(e.key); e.preventDefault(); }
   else if (e.key === 'Backspace') { press('Backspace'); e.preventDefault(); }
 });
 addEventListener('pointermove', (e) => { if (S.screen !== 'play' && !S.guideOpen) hero.lookAt({ x: e.clientX, y: e.clientY }); });

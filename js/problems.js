@@ -4,6 +4,9 @@
 //   column add/sub (with decimals), column multiplication, long division,
 //   and horizontal expressions (integers, decimals, fractions, remainders).
 import { SKILL } from './skills.js';
+import { t } from './i18n.js';
+import jaContent from '../locales/content.ja.js';
+import zhContent from '../locales/content.zh-CN.js';
 
 export function makeRng(seed) {
   let s = seed >>> 0;
@@ -15,13 +18,13 @@ export function makeRng(seed) {
   };
 }
 
-const PLACE = ['一の位', '十の位', '百の位', '千の位', '万の位', '十万の位'];
-const DEC_PLACE = ['小数第一位', '小数第二位', '小数第三位'];
+const PLACE = Array.from({ length: 6 }, (_, i) => t(`content.problem.place.${i}`));
+const DEC_PLACE = Array.from({ length: 3 }, (_, i) => t(`content.problem.decPlace.${i}`));
 const digits = (n) => String(n).split('').map(Number);
 const gcd = (a, b) => (b ? gcd(b, a % b) : Math.abs(a));
 const lcm = (a, b) => (a / gcd(a, b)) * b;
 // Multiples of d up to the first one above n (hint for "how many d in n").
-const table = (d, n) => { const out = []; for (let k = 1; k <= 9; k++) { out.push(d * k); if (d * k > n) break; } return `${d}のだん ${out.join(' ')}`; };
+const table = (d, n) => { const out = []; for (let k = 1; k <= 9; k++) { out.push(d * k); if (d * k > n) break; } return t('content.problem.multiples', { number: d, values: out.join(' ') }); };
 // Decimal string for an integer scaled by 10^p (1234, 2 -> "12.34").
 const decStr = (n, p) => { if (!p) return String(n); const s = String(n).padStart(p + 1, '0'); return `${s.slice(0, -p)}.${s.slice(-p)}`; };
 
@@ -62,7 +65,7 @@ function buildAdd(a, b, pa = 0, pb = 0) {
     const carryIn = carry;
     carry = s >= 10 ? 1 : 0;
     const terms = [ad[i], bd[i]].filter((x, k) => x !== undefined && (k === 0 ? shown(as, pa, as.length - 1 - i) : shown(bs, pb, bs.length - 1 - i)));
-    const help = { ids: [`a${c}`, `b${c}`, ...(carryIn ? [`k${c}`] : [])], text: terms.length ? `${terms.join(' ＋ ')}${carryIn ? ' ＋ 1' : ''}` : 'くりあがりの 1' };
+    const help = { ids: [`a${c}`, `b${c}`, ...(carryIn ? [`k${c}`] : [])], text: terms.length ? `${terms.join(' ＋ ')}${carryIn ? ' ＋ 1' : ''}` : t('content.problem.carryOne') };
     const digit = ss[ss.length - 1 - i];
     cells.push({ id: `s${c}`, r: 3, c, text: digit, kind: 'input' });
     const after = [];
@@ -70,7 +73,7 @@ function buildAdd(a, b, pa = 0, pb = 0) {
     steps.push({ cell: `s${c}`, digit, label: placeLabel(i, P), after, carryFrom: after.length ? c : null, help });
   }
   const text = `${decStr(a, pa)} + ${decStr(b, pb)}`;
-  return { kind: 'add', a, b, answer: decStr(sum, P), text, title: P ? '小数のたしざん' : 'たしざん', rows: 4, cols, cells, lines: [{ r: 2, c0: 0, c1: cols - 1 }], steps, bracket: null };
+  return { kind: 'add', a, b, answer: decStr(sum, P), text, title: t(P ? 'content.problem.title.decAdd' : 'content.problem.title.add'), rows: 4, cols, cells, lines: [{ r: 2, c0: 0, c1: cols - 1 }], steps, bracket: null };
 }
 
 function buildSub(a, b, pa = 0, pb = 0) {
@@ -106,7 +109,7 @@ function buildSub(a, b, pa = 0, pb = 0) {
   }
   for (let c = 1; c < cols; c++) cells.push({ id: `m${c}`, r: 0, c, text: '', kind: 'mark', small: true });
   const text = `${decStr(a, pa)} − ${decStr(b, pb)}`;
-  return { kind: 'sub', a, b, answer: decStr(res, P), text, title: P ? '小数のひきざん' : 'ひきざん', rows: 4, cols, cells, lines: [{ r: 2, c0: 0, c1: cols - 1 }], steps, bracket: null };
+  return { kind: 'sub', a, b, answer: decStr(res, P), text, title: t(P ? 'content.problem.title.decSub' : 'content.problem.title.sub'), rows: 4, cols, cells, lines: [{ r: 2, c0: 0, c1: cols - 1 }], steps, bracket: null };
 }
 
 // Digits of a scaled decimal, with at least one digit before the point.
@@ -139,9 +142,9 @@ function buildMul(a, b, pa = 0, pb = 0) {
       const digit = part[part.length - 1 - i];
       cells.push({ id: `${tag}${c}`, r: row, c, text: digit, kind: 'input' });
       const x = ad[i];
-      const help = x !== undefined ? { ids: [`a${c + shift}`, `b${cols - 1 - shift}`], text: `${x} × ${factor}${carry ? ` ＋ ${carry}` : ''}` } : { ids: [], text: `くりあがりの ${carry}` };
+      const help = x !== undefined ? { ids: [`a${c + shift}`, `b${cols - 1 - shift}`], text: `${x} × ${factor}${carry ? ` ＋ ${carry}` : ''}` } : { ids: [], text: t('content.problem.carry', { number: carry }) };
       carry = x !== undefined ? Math.floor((x * factor + carry) / 10) : 0;
-      steps.push({ cell: `${tag}${c}`, digit, label: `${factor}をかける`, after: [], help });
+      steps.push({ cell: `${tag}${c}`, digit, label: t('content.problem.multiplyBy', { number: factor }), after: [], help });
     }
   };
   if (bs.length === 1) {
@@ -159,14 +162,14 @@ function buildMul(a, b, pa = 0, pb = 0) {
       cells.push({ id: `s${c}`, r: 5, c, text: digit, kind: 'input' });
       const help = { ids: [`p${c}`, `q${c}`], text: `${x}${i ? ` ＋ ${y}` : ''}${carry ? ` ＋ ${carry}` : ''}` };
       carry = Math.floor((x + y + carry) / 10);
-      steps.push({ cell: `s${c}`, digit, label: `たす（${PLACE[i]}）`, after: [], help });
+      steps.push({ cell: `s${c}`, digit, label: t('content.problem.addPlace', { place: PLACE[i] }), after: [], help });
     }
   }
   const P = pa + pb;
   const lastRow = bs.length === 1 ? 3 : 5;
   if (P) { cells.push({ id: 'dotp', r: lastRow, c: cols - 1 - P, text: '.', kind: 'auto' }); steps[steps.length - 1].after.push('dotp'); }
   const text = `${decStr(a, pa)} × ${decStr(b, pb)}`;
-  return { kind: 'mul', a, b, answer: decStr(prod, P), text, title: P ? '小数のかけざん' : 'かけざん', rows: lastRow + 1, cols, cells, lines, steps, bracket: null };
+  return { kind: 'mul', a, b, answer: decStr(prod, P), text, title: t(P ? 'content.problem.title.decMul' : 'content.problem.title.mul'), rows: lastRow + 1, cols, cells, lines, steps, bracket: null };
 }
 
 // ================================================================ long division
@@ -199,7 +202,7 @@ function buildDiv(D, d) {
     const qid = `q${col}`;
     cells.push({ id: qid, r: 0, c: col, text: String(qd), kind: 'input' });
     const last = col === cols - 1;
-    const qStep = { cell: qid, digit: String(qd), label: `商の${PLACE[cols - 1 - col]}`, hint: `${cur}の中に${d}はいくつ`, after: [], help: { ids: divIds, text: table(d, cur) } };
+    const qStep = { cell: qid, digit: String(qd), label: t('content.problem.quotientPlace', { place: PLACE[cols - 1 - col] }), hint: t('content.problem.howMany', { total: cur, number: d }), after: [], help: { ids: divIds, text: table(d, cur) } };
     steps.push(qStep);
     let r = cur;
     if (qd > 0) {
@@ -223,7 +226,7 @@ function buildDiv(D, d) {
           const c = col - (rs.length - 1 - i);
           const id = `r${rowP}_${c}`;
           cells.push({ id, r: rowP, c, text: rs[i], kind: 'input' });
-          steps.push({ cell: id, digit: rs[i], label: 'ひいた のこり', hint: `${cur} − ${m}`, after: [], help: { ids: mids, text: `${cur} − ${m}` } });
+          steps.push({ cell: id, digit: rs[i], label: t('content.problem.subtractRemainder'), hint: `${cur} − ${m}`, after: [], help: { ids: mids, text: `${cur} − ${m}` } });
         }
       }
     }
@@ -240,13 +243,13 @@ function buildDiv(D, d) {
   const rows = row + 1;
   const answer = rem ? `${q} あまり ${rem}` : String(q);
   return {
-    kind: 'div', a: D, b: d, answer, text: `${D} ÷ ${d}`, title: 'わりざん', rows, cols, cells, lines, steps,
+    kind: 'div', a: D, b: d, answer, text: `${D} ÷ ${d}`, title: t('content.problem.title.div'), rows, cols, cells, lines, steps,
     bracket: { r: 1, c0: off, c1: cols - 1 }, rem,
   };
 }
 
 // ================================================================ horizontal expressions
-// tokens: { n: '12' } given number, { op: '＋' }, { w: 'あまり' } word,
+// tokens: { n: '12' } given number, { op: '＋' }, { w: t('content.problem.word.remainder') } word,
 // { ans: '12.5' } answer (digits typed left to right, point auto),
 // { f: [n, d, whole?] } given fraction, { fa: [n, d, whole?] } answer fraction,
 // { br: true } line break.
@@ -259,32 +262,32 @@ function buildH(tokens, meta) {
   const id = (p) => `${p}${uid++}`;
   const span = { rs: rowH };
   const ansIds = [];
-  for (const t of tokens) {
-    if (t.br) { maxC = Math.max(maxC, c); c = 0; r += rowH; continue; }
-    if (t.n !== undefined || t.op !== undefined || t.w !== undefined) {
-      const text = String(t.n ?? t.op ?? t.w);
-      const kind = t.n !== undefined ? 'given' : t.op !== undefined ? 'op' : 'word';
+  for (const token of tokens) {
+    if (token.br) { maxC = Math.max(maxC, c); c = 0; r += rowH; continue; }
+    if (token.n !== undefined || token.op !== undefined || token.w !== undefined) {
+      const text = String(token.n ?? token.op ?? token.w);
+      const kind = token.n !== undefined ? 'given' : token.op !== undefined ? 'op' : 'word';
       const w = kind === 'word' ? Math.max(1, Math.ceil(text.length / 2)) : kind === 'given' ? text.replace('.', '').length : 1;
       const cid = id(kind[0]);
       cells.push({ id: cid, r, c, cs: w, ...span, text, kind });
       if (kind === 'given') ansIds.push(cid);
       c += w;
-    } else if (t.ans !== undefined) {
-      const s = String(t.ans);
+    } else if (token.ans !== undefined) {
+      const s = String(token.ans);
       for (const ch of s) {
         if (ch === '.') { cells.push({ id: id('dot'), r, c: c - 1, ...span, text: '.', kind: 'dot' }); continue; }
         const cid = id('x');
         cells.push({ id: cid, r, c, ...span, text: ch, kind: 'input' });
-        steps.push({ cell: cid, digit: ch, label: t.label || 'こたえ', after: [], help: meta.help ? { ids: [...ansIds], text: meta.help } : null });
+        steps.push({ cell: cid, digit: ch, label: token.label || t('content.problem.answer'), after: [], help: meta.help ? { ids: [...ansIds], text: meta.help } : null });
         c += 1;
       }
-    } else if (t.f || t.fa) {
-      const [n, d, whole] = t.f || t.fa;
-      const given = !!t.f;
+    } else if (token.f || token.fa) {
+      const [n, d, whole] = token.f || token.fa;
+      const given = !!token.f;
       if (whole) {
         const ws = String(whole);
         if (given) { cells.push({ id: id('w'), r, c, cs: ws.length, ...span, text: ws, kind: 'given' }); c += ws.length; } else {
-          for (const ch of ws) { const cid = id('x'); cells.push({ id: cid, r, c, ...span, text: ch, kind: 'input' }); steps.push({ cell: cid, digit: ch, label: '整数の部分', after: [], help: meta.help ? { ids: [], text: meta.help } : null }); c += 1; }
+          for (const ch of ws) { const cid = id('x'); cells.push({ id: cid, r, c, ...span, text: ch, kind: 'input' }); steps.push({ cell: cid, digit: ch, label: t('content.problem.wholePart'), after: [], help: meta.help ? { ids: [], text: meta.help } : null }); c += 1; }
         }
       }
       const ns = String(n); const dsx = String(d);
@@ -300,8 +303,8 @@ function buildH(tokens, meta) {
           cells.push({ id: cid, r: row, c: c + w - str.length + i, text: ch, kind: 'input', cls });
           steps.push({ cell: cid, digit: ch, label, after: [], help: meta.help ? { ids: [], text: meta.help } : null });
         });
-        put(dsx, r + 1, '分母', 'frac-d');
-        put(ns, r, '分子', 'frac-n');
+        put(dsx, r + 1, t('content.problem.denominator'), 'frac-d');
+        put(ns, r, t('content.problem.numerator'), 'frac-n');
       }
       c += w;
     }
@@ -327,7 +330,7 @@ const fracTok = (n, d, whole) => ({ f: [n, d, whole] });
 const GEN = {
   compose(rng, { total }) {
     const a = R(rng)(1, total - 1);
-    return buildH([{ n: total }, { w: 'は' }, { n: a }, { w: 'と' }, { ans: total - a }], { title: 'いくつといくつ', text: `${total}は${a}と`, answer: String(total - a), help: `${a}に いくつで ${total}` });
+    return buildH([{ n: total }, { w: t('content.problem.word.is') }, { n: a }, { w: t('content.problem.word.and') }, { ans: total - a }], { title: t('content.problem.title.compose'), text: `${total}は${a}と`, displayText: t('content.problem.composeText', { total, part: a }), answer: String(total - a), help: t('content.problem.composeHelp', { part: a, total }) });
   },
   hadd(rng, { a, b, carry, tensToo }) {
     const r = R(rng);
@@ -338,8 +341,8 @@ const GEN = {
       if (carry === 'none' && c) continue;
       if (carry === 'yes' && !c) continue;
       if (rng() < 0.5 && !tensToo) [x, y] = [y, x];
-      const help = carry === 'yes' ? `${x}に ${10 - (x % 10)}で 10` : null;
-      return buildH([{ n: x }, { op: '＋' }, { n: y }, { op: '＝' }, { ans: x + y }], { title: 'たしざん', text: `${x} + ${y}`, answer: String(x + y), help: help || `${x} ＋ ${y}` });
+      const help = carry === 'yes' ? t('content.problem.makeTen', { number: x, add: 10 - (x % 10) }) : null;
+      return buildH([{ n: x }, { op: '＋' }, { n: y }, { op: '＝' }, { ans: x + y }], { title: t('content.problem.title.add'), text: `${x} + ${y}`, answer: String(x + y), help: help || `${x} ＋ ${y}` });
     }
     throw new Error('hadd');
   },
@@ -353,7 +356,7 @@ const GEN = {
       if (borrow === 'none' && br) continue;
       if (borrow === 'yes' && !br) continue;
       const help = borrow === 'yes' ? `10 − ${y} ＝ ${10 - y}` : `${x} − ${y}`;
-      return buildH([{ n: x }, { op: '−' }, { n: y }, { op: '＝' }, { ans: x - y }], { title: 'ひきざん', text: `${x} − ${y}`, answer: String(x - y), help });
+      return buildH([{ n: x }, { op: '−' }, { n: y }, { op: '＝' }, { ans: x - y }], { title: t('content.problem.title.sub'), text: `${x} − ${y}`, answer: String(x - y), help });
     }
     throw new Error('hsub');
   },
@@ -364,38 +367,38 @@ const GEN = {
       const o1 = rng() < 0.6 ? '＋' : '−'; const o2 = rng() < 0.6 ? '＋' : '−';
       const s1 = o1 === '＋' ? a + b : a - b; if (s1 < 0) continue;
       const s2 = o2 === '＋' ? s1 + c : s1 - c; if (s2 < 0 || s2 > 20) continue;
-      return buildH([{ n: a }, { op: o1 }, { n: b }, { op: o2 }, { n: c }, { op: '＝' }, { ans: s2 }], { title: '3つのかず', text: `${a}${o1}${b}${o2}${c}`, answer: String(s2), help: `まず ${a} ${o1} ${b} ＝ ${s1}` });
+      return buildH([{ n: a }, { op: o1 }, { n: b }, { op: o2 }, { n: c }, { op: '＝' }, { ans: s2 }], { title: t('content.problem.title.three'), text: `${a}${o1}${b}${o2}${c}`, answer: String(s2), help: t('content.problem.first', { expression: `${a} ${o1} ${b} ＝ ${s1}` }) });
     }
     throw new Error('add3');
   },
   kuku(rng, { dans }) {
     const a = pickOf(rng, dans); const b = R(rng)(1, 9);
-    return buildH([{ n: a }, { op: '×' }, { n: b }, { op: '＝' }, { ans: a * b }], { title: 'かけざん', text: `${a} × ${b}`, answer: String(a * b), help: table(a, a * (b - 1)) });
+    return buildH([{ n: a }, { op: '×' }, { n: b }, { op: '＝' }, { ans: a * b }], { title: t('content.problem.title.mul'), text: `${a} × ${b}`, answer: String(a * b), help: table(a, a * (b - 1)) });
   },
   mulTens(rng) {
     const a = R(rng)(1, 9) * 10; const b = R(rng)(2, 9);
-    return buildH([{ n: a }, { op: '×' }, { n: b }, { op: '＝' }, { ans: a * b }], { title: 'かけざん', text: `${a} × ${b}`, answer: String(a * b), help: `${a / 10} × ${b} の 10こぶん` });
+    return buildH([{ n: a }, { op: '×' }, { n: b }, { op: '＝' }, { ans: a * b }], { title: t('content.problem.title.mul'), text: `${a} × ${b}`, answer: String(a * b), help: t('content.problem.tenTimes', { expression: `${a / 10} × ${b}` }) });
   },
   fracOf(rng, { dens }) {
     const d = pickOf(rng, dens); const q = R(rng)(1, 9);
-    return buildH([{ n: q * d }, { w: 'の' }, fracTok(1, d), { w: 'は' }, { ans: q }], { title: 'ぶんすう', text: `${q * d}の1/${d}`, answer: String(q), help: `${q * d}を ${d}つに わける` });
+    return buildH([{ n: q * d }, { w: t('content.problem.word.of') }, fracTok(1, d), { w: t('content.problem.word.is') }, { ans: q }], { title: t('content.problem.title.fraction'), text: `${q * d}の1/${d}`, displayText: t('content.problem.fractionOfText', { total: q * d, denominator: d }), answer: String(q), help: t('content.problem.divideInto', { total: q * d, count: d }) });
   },
   div(rng) {
     const d = R(rng)(2, 9); const q = R(rng)(1, 9);
-    return buildH([{ n: q * d }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: q }], { title: 'わりざん', text: `${q * d} ÷ ${d}`, answer: String(q), help: table(d, q * d) });
+    return buildH([{ n: q * d }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: q }], { title: t('content.problem.title.div'), text: `${q * d} ÷ ${d}`, answer: String(q), help: table(d, q * d) });
   },
   divRem(rng) {
     const d = R(rng)(2, 9); const q = R(rng)(1, 9); const rem = R(rng)(1, d - 1);
     const D = q * d + rem;
-    return buildH([{ n: D }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: q, label: '商' }, { w: 'あまり' }, { ans: rem, label: 'あまり' }], { title: 'あまりのあるわりざん', text: `${D} ÷ ${d}`, answer: `${q} あまり ${rem}`, help: table(d, D) });
+    return buildH([{ n: D }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: q, label: t('content.problem.quotient') }, { w: t('content.problem.word.remainder') }, { ans: rem, label: t('content.problem.remainder') }], { title: t('content.problem.title.divRemainder'), text: `${D} ÷ ${d}`, answer: `${q} あまり ${rem}`, help: table(d, D) });
   },
   divTens(rng) {
     const r = R(rng);
     for (let g = 0; g < 200; g++) {
       const d = r(2, 9);
-      if (rng() < 0.5) { const q = r(1, 9); if (q * d * 10 > 99) continue; return buildH([{ n: q * d * 10 }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: q * 10 }], { title: 'わりざん', text: `${q * d * 10} ÷ ${d}`, answer: String(q * 10), help: `${q * d} ÷ ${d} の 10こぶん` }); }
-      const t = r(1, 4); const o = r(1, 4); const D = (t * 10 + o) * d; if (D > 99 || Math.floor(D / 10) % d || (D % 10) % d) continue;
-      return buildH([{ n: D }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: D / d }], { title: 'わりざん', text: `${D} ÷ ${d}`, answer: String(D / d), help: `${Math.floor(D / 10) * 10} ÷ ${d} と ${D % 10} ÷ ${d}` });
+      if (rng() < 0.5) { const q = r(1, 9); if (q * d * 10 > 99) continue; return buildH([{ n: q * d * 10 }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: q * 10 }], { title: t('content.problem.title.div'), text: `${q * d * 10} ÷ ${d}`, answer: String(q * 10), help: t('content.problem.tenTimes', { expression: `${q * d} ÷ ${d}` }) }); }
+      const tens = r(1, 4); const o = r(1, 4); const D = (tens * 10 + o) * d; if (D > 99 || Math.floor(D / 10) % d || (D % 10) % d) continue;
+      return buildH([{ n: D }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: D / d }], { title: t('content.problem.title.div'), text: `${D} ÷ ${d}`, answer: String(D / d), help: t('content.problem.combine', { first: `${Math.floor(D / 10) * 10} ÷ ${d}`, second: `${D % 10} ÷ ${d}` }) });
     }
     throw new Error('divTens');
   },
@@ -471,16 +474,16 @@ const GEN = {
     for (let g = 0; g < 200; g++) {
       const d = r(2, 9); const q = r(11, 99); if (q % 10 === 0) continue;
       const D = q * d; if (D % 10 === 0 || D > 999) continue;
-      return buildH([{ n: decStr(D, 1) }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: decStr(q, 1) }], { title: '小数のわりざん', text: `${decStr(D, 1)} ÷ ${d}`, answer: decStr(q, 1), help: `${D} ÷ ${d} を 考える` });
+      return buildH([{ n: decStr(D, 1) }, { op: '÷' }, { n: d }, { op: '＝' }, { ans: decStr(q, 1) }], { title: t('content.problem.title.decDiv'), text: `${decStr(D, 1)} ÷ ${d}`, answer: decStr(q, 1), help: t('content.problem.consider', { expression: `${D} ÷ ${d}` }) });
     }
     throw new Error('decDivInt');
   },
   decDivDec(rng) {
     const r = R(rng);
     const d = r(2, 9); const q = r(2, 9);
-    if (rng() < 0.5) { const D = d * q; return buildH([{ n: decStr(D, 1) }, { op: '÷' }, { n: decStr(d, 1) }, { op: '＝' }, { ans: q }], { title: '小数のわりざん', text: `${decStr(D, 1)} ÷ ${decStr(d, 1)}`, answer: String(q), help: `${D} ÷ ${d} と 同じ` }); }
+    if (rng() < 0.5) { const D = d * q; return buildH([{ n: decStr(D, 1) }, { op: '÷' }, { n: decStr(d, 1) }, { op: '＝' }, { ans: q }], { title: t('content.problem.title.decDiv'), text: `${decStr(D, 1)} ÷ ${decStr(d, 1)}`, answer: String(q), help: t('content.problem.sameAs', { expression: `${D} ÷ ${d}` }) }); }
     const d2 = r(11, 29); const D2 = d2 * q;
-    return buildH([{ n: decStr(D2, 1) }, { op: '÷' }, { n: decStr(d2, 1) }, { op: '＝' }, { ans: q }], { title: '小数のわりざん', text: `${decStr(D2, 1)} ÷ ${decStr(d2, 1)}`, answer: String(q), help: `${D2} ÷ ${d2} と 同じ` });
+    return buildH([{ n: decStr(D2, 1) }, { op: '÷' }, { n: decStr(d2, 1) }, { op: '＝' }, { ans: q }], { title: t('content.problem.title.decDiv'), text: `${decStr(D2, 1)} ÷ ${decStr(d2, 1)}`, answer: String(q), help: t('content.problem.sameAs', { expression: `${D2} ÷ ${d2}` }) });
   },
   gcdlcm(rng, { kind }) {
     const r = R(rng);
@@ -489,8 +492,9 @@ const GEN = {
       if (a === b || a < 4 || b < 4) continue;
       const ans = kind === 'gcd' ? gcd(a, b) : lcm(a, b);
       if (ans === 1 || ans > 99) continue;
-      const w = kind === 'gcd' ? '最大公約数' : '最小公倍数';
-      return buildH([{ n: a }, { w: 'と' }, { n: b }, { w: 'の' }, { br: true }, { w }, { op: '＝' }, { ans }], { title: w, text: `${a}と${b}の${w}`, answer: String(ans), help: kind === 'gcd' ? `どちらも わりきれる 数` : `${Math.max(a, b)}のばいすう` });
+      const w = t(kind === 'gcd' ? 'content.problem.title.gcd' : 'content.problem.title.lcm');
+      const sourceW = kind === 'gcd' ? '最大公約数' : '最小公倍数';
+      return buildH([{ n: a }, { w: t('content.problem.word.and') }, { n: b }, { w: t('content.problem.word.of') }, { br: true }, { w }, { op: '＝' }, { ans }], { title: w, text: `${a}と${b}の${sourceW}`, displayText: t('content.problem.gcdText', { first: a, second: b, name: w }), answer: String(ans), help: kind === 'gcd' ? t('content.problem.commonDivisor') : t('content.problem.multipleOf', { number: Math.max(a, b) }) });
     }
     throw new Error('gcdlcm');
   },
@@ -500,12 +504,12 @@ const GEN = {
       const a = r(2, 9); const b = r(2, 9); const c = r(2, 9);
       const form = r(0, 3);
       let toks; let ans; let help;
-      if (form === 0) { ans = a + b * c; toks = [{ n: a }, { op: '＋' }, { n: b }, { op: '×' }, { n: c }]; help = `先に ${b} × ${c}`; }
-      else if (form === 1) { ans = a * (b + c); toks = [{ n: a }, { op: '×' }, { op: '(' }, { n: b }, { op: '＋' }, { n: c }, { op: ')' }]; help = `先に ${b} ＋ ${c}`; }
-      else if (form === 2) { if (a <= b) continue; ans = (a - b) * c; toks = [{ op: '(' }, { n: a }, { op: '−' }, { n: b }, { op: ')' }, { op: '×' }, { n: c }]; help = `先に ${a} − ${b}`; }
-      else { const bc = b * c; const x = r(bc + 1, bc + 30); ans = x - bc; toks = [{ n: x }, { op: '−' }, { n: b }, { op: '×' }, { n: c }]; help = `先に ${b} × ${c}`; }
+      if (form === 0) { ans = a + b * c; toks = [{ n: a }, { op: '＋' }, { n: b }, { op: '×' }, { n: c }]; help = t('content.problem.first', { expression: `${b} × ${c}` }); }
+      else if (form === 1) { ans = a * (b + c); toks = [{ n: a }, { op: '×' }, { op: '(' }, { n: b }, { op: '＋' }, { n: c }, { op: ')' }]; help = t('content.problem.first', { expression: `${b} ＋ ${c}` }); }
+      else if (form === 2) { if (a <= b) continue; ans = (a - b) * c; toks = [{ op: '(' }, { n: a }, { op: '−' }, { n: b }, { op: ')' }, { op: '×' }, { n: c }]; help = t('content.problem.first', { expression: `${a} − ${b}` }); }
+      else { const bc = b * c; const x = r(bc + 1, bc + 30); ans = x - bc; toks = [{ n: x }, { op: '−' }, { n: b }, { op: '×' }, { n: c }]; help = t('content.problem.first', { expression: `${b} × ${c}` }); }
       if (ans <= 0 || ans > 999) continue;
-      return buildH([...toks, { op: '＝' }, { ans }], { title: 'けいさんのきまり', text: toks.map((t) => t.n ?? t.op).join(''), answer: String(ans), help });
+      return buildH([...toks, { op: '＝' }, { ans }], { title: t('content.problem.title.order'), text: toks.map((t) => t.n ?? t.op).join(''), answer: String(ans), help });
     }
     throw new Error('order');
   },
@@ -516,14 +520,14 @@ const GEN = {
     const unit = 10 ** pl; const ans = Math.round(n / unit) * unit;
     if (String(ans).length > len) return GEN.round(rng);
     const nm = ['十', '百', '千'][pl - 1];
-    return buildH([{ n }, { w: 'を' }, { br: true }, { w: `${nm}の位まで` }, { op: '→' }, { ans }], { title: 'がい数', text: `${n}を${nm}の位までのがい数に`, answer: String(ans), help: `${['一', '十', '百'][pl - 1]}の位を 四捨五入` });
+    return buildH([{ n }, { w: t('content.problem.word.object') }, { br: true }, { w: t('content.problem.roundToPlace', { place: PLACE[pl] }) }, { op: '→' }, { ans }], { title: t('content.problem.title.round'), text: `${n}を${nm}の位までのがい数に`, displayText: t('content.problem.roundText', { number: n, place: PLACE[pl] }), answer: String(ans), help: t('content.problem.roundPlace', { place: PLACE[pl - 1] }) });
   },
   percent(rng) {
     const r = R(rng);
     for (let g = 0; g < 200; g++) {
       const base = pickOf(rng, [20, 40, 50, 60, 80, 100, 200, 300, 400, 500]); const p = pickOf(rng, [5, 10, 20, 25, 30, 40, 50, 60, 75]);
       const ans = (base * p) / 100; if (!Number.isInteger(ans) || ans === 0) continue;
-      return buildH([{ n: base }, { w: 'の' }, { n: p }, { op: '%' }, { op: '＝' }, { ans }], { title: '百分率', text: `${base}の${p}%`, answer: String(ans), help: `${base} × ${p / 100}` });
+      return buildH([{ n: base }, { w: t('content.problem.word.of') }, { n: p }, { op: '%' }, { op: '＝' }, { ans }], { title: t('content.problem.title.percent'), text: `${base}の${p}%`, displayText: t('content.problem.percentText', { number: base, percent: p }), answer: String(ans), help: `${base} × ${p / 100}` });
     }
     throw new Error('percent');
   },
@@ -533,7 +537,7 @@ const GEN = {
     const [x, y] = reduce(a, b); const k = r(2, 9);
     const hideLeft = rng() < 0.5;
     const toks = hideLeft ? [{ n: x }, { op: '：' }, { n: y }, { op: '＝' }, { ans: x * k }, { op: '：' }, { n: y * k }] : [{ n: x }, { op: '：' }, { n: y }, { op: '＝' }, { n: x * k }, { op: '：' }, { ans: y * k }];
-    return buildH(toks, { title: 'ひ', text: `${x}:${y}`, answer: String(hideLeft ? x * k : y * k), help: `${k}ばい` });
+    return buildH(toks, { title: t('content.problem.title.ratio'), text: `${x}:${y}`, answer: String(hideLeft ? x * k : y * k), help: t('content.problem.times', { count: k }) });
   },
   letter(rng) {
     const r = R(rng);
@@ -542,15 +546,15 @@ const GEN = {
     let toks; let help;
     if (form === 0) { toks = [{ n: 'x' }, { op: '×' }, { n: a }, { op: '＝' }, { n: x * a }]; help = `${x * a} ÷ ${a}`; }
     else if (form === 1) { toks = [{ n: 'x' }, { op: '＋' }, { n: a * 3 }, { op: '＝' }, { n: x + a * 3 }]; help = `${x + a * 3} − ${a * 3}`; }
-    else { toks = [{ n: 'x' }, { op: '−' }, { n: a }, { op: '＝' }, { n: x }]; help = `${x} ＋ ${a}`; return buildH([...toks, { br: true }, { n: 'x' }, { op: '＝' }, { ans: x + a }], { title: 'xをもとめる', text: toks.map((t) => t.n ?? t.op ?? t.w).join(''), answer: String(x + a), help }); }
-    return buildH([...toks, { br: true }, { n: 'x' }, { op: '＝' }, { ans: x }], { title: 'xをもとめる', text: toks.map((t) => t.n ?? t.op ?? t.w).join(''), answer: String(x), help });
+    else { toks = [{ n: 'x' }, { op: '−' }, { n: a }, { op: '＝' }, { n: x }]; help = `${x} ＋ ${a}`; return buildH([...toks, { br: true }, { n: 'x' }, { op: '＝' }, { ans: x + a }], { title: t('content.problem.title.solveX'), text: toks.map((t) => t.n ?? t.op ?? t.w).join(''), answer: String(x + a), help }); }
+    return buildH([...toks, { br: true }, { n: 'x' }, { op: '＝' }, { ans: x }], { title: t('content.problem.title.solveX'), text: toks.map((t) => t.n ?? t.op ?? t.w).join(''), answer: String(x), help });
   },
   frac(rng, { op, same, maxOne, mixed }) {
     const r = R(rng);
     for (let g = 0; g < 600; g++) {
       if (op === 'reduce') {
         const d = r(2, 9); const n = r(1, d - 1); const k = r(2, 6); if (gcd(n, d) !== 1) continue;
-        return buildH([fracTok(n * k, d * k), { op: '＝' }, { fa: [n, d] }], { title: '約分', text: `${n * k}/${d * k}`, answer: `${n}/${d}`, help: `${k}で わる` });
+        return buildH([fracTok(n * k, d * k), { op: '＝' }, { fa: [n, d] }], { title: t('content.problem.title.reduce'), text: `${n * k}/${d * k}`, answer: `${n}/${d}`, help: t('content.problem.divideBy', { number: k }) });
       }
       if (op === 'addsub' && same) {
         const d = r(3, 12); const add = rng() < 0.55;
@@ -561,12 +565,12 @@ const GEN = {
           if (gcd(res % d, d) !== 1 && res % d) continue;
           const t1 = fracTok(n1, d, w1); const t2 = fracTok(n2, d, w2 || undefined);
           const fa = { fa: [res % d, d, Math.floor(res / d) || undefined] };
-          return buildH([t1, { op: add ? '＋' : '−' }, t2, { op: '＝' }, fa], { title: '分数のたしひき', text: `${w1}と${n1}/${d} ${add ? '+' : '−'} ${w2}と${n2}/${d}`, answer: res >= d ? `${Math.floor(res / d)}と${res % d}/${d}` : `${res}/${d}`, help: `分母は ${d} のまま` });
+          return buildH([t1, { op: add ? '＋' : '−' }, t2, { op: '＝' }, fa], { title: t('content.problem.title.fractionAddSub'), text: `${w1}と${n1}/${d} ${add ? '+' : '−'} ${w2}と${n2}/${d}`, answer: res >= d ? `${Math.floor(res / d)}と${res % d}/${d}` : `${res}/${d}`, help: t('content.problem.denominatorSame', { number: d }) });
         }
         const n1 = r(1, d - 1); const n2 = r(1, d - 1);
         const res = add ? n1 + n2 : n1 - n2;
         if (res <= 0 || (maxOne && res >= d)) continue;
-        return buildH([fracTok(n1, d), { op: add ? '＋' : '−' }, fracTok(n2, d), { op: '＝' }, { fa: [res, d] }], { title: '分数のたしひき', text: `${n1}/${d} ${add ? '+' : '−'} ${n2}/${d}`, answer: `${res}/${d}`, help: `分母は ${d} のまま` });
+        return buildH([fracTok(n1, d), { op: add ? '＋' : '−' }, fracTok(n2, d), { op: '＝' }, { fa: [res, d] }], { title: t('content.problem.title.fractionAddSub'), text: `${n1}/${d} ${add ? '+' : '−'} ${n2}/${d}`, answer: `${res}/${d}`, help: t('content.problem.denominatorSame', { number: d }) });
       }
       if (op === 'addsub') {
         const d1 = r(2, 9); const d2 = r(2, 9); if (d1 === d2) continue;
@@ -575,7 +579,7 @@ const GEN = {
         const res = add ? n1 * (L / d1) + n2 * (L / d2) : n1 * (L / d1) - n2 * (L / d2);
         if (res <= 0 || res >= L) continue;
         const [rn, rd] = reduce(res, L);
-        return buildH([fracTok(n1, d1), { op: add ? '＋' : '−' }, fracTok(n2, d2), { op: '＝' }, { fa: [rn, rd] }], { title: '分数のたしひき', text: `${n1}/${d1} ${add ? '+' : '−'} ${n2}/${d2}`, answer: `${rn}/${rd}`, help: `通分すると 分母は ${L}` });
+        return buildH([fracTok(n1, d1), { op: add ? '＋' : '−' }, fracTok(n2, d2), { op: '＝' }, { fa: [rn, rd] }], { title: t('content.problem.title.fractionAddSub'), text: `${n1}/${d1} ${add ? '+' : '−'} ${n2}/${d2}`, answer: `${rn}/${rd}`, help: t('content.problem.commonDenominator', { number: L }) });
       }
       if (op === 'muldivInt') {
         const d = r(2, 9); const n = r(1, d - 1); const k = r(2, 9); if (gcd(n, d) !== 1) continue;
@@ -583,7 +587,7 @@ const GEN = {
         const [rn, rd] = mul ? reduce(n * k, d) : reduce(n, d * k);
         if (rd === 1) continue;
         const a = fracAns(rn, rd, true);
-        return buildH([fracTok(n, d), { op: mul ? '×' : '÷' }, { n: k }, { op: '＝' }, a], { title: '分数と整数', text: `${n}/${d} ${mul ? '×' : '÷'} ${k}`, answer: a.text, help: mul ? `分子に ${k} をかける` : `分母に ${k} をかける` });
+        return buildH([fracTok(n, d), { op: mul ? '×' : '÷' }, { n: k }, { op: '＝' }, a], { title: t('content.problem.title.fractionInteger'), text: `${n}/${d} ${mul ? '×' : '÷'} ${k}`, answer: a.text, help: mul ? t('content.problem.multiplyNumerator', { number: k }) : t('content.problem.multiplyDenominator', { number: k }) });
       }
       if (op === 'mul' || op === 'div') {
         const d1 = r(2, 9); const n1 = r(1, 9); const d2 = r(2, 9); const n2 = r(1, 9);
@@ -591,21 +595,98 @@ const GEN = {
         const [rn, rd] = op === 'mul' ? reduce(n1 * n2, d1 * d2) : reduce(n1 * d2, d1 * n2);
         if (rd === 1 || rn > 99 || rd > 99) continue;
         const a = fracAns(rn, rd, true);
-        return buildH([fracTok(n1, d1), { op: op === 'mul' ? '×' : '÷' }, fracTok(n2, d2), { op: '＝' }, a], { title: op === 'mul' ? '分数のかけざん' : '分数のわりざん', text: `${n1}/${d1} ${op === 'mul' ? '×' : '÷'} ${n2}/${d2}`, answer: a.text, help: op === 'mul' ? '分母どうし・分子どうしをかける' : `${n2}/${d2} を ひっくりかえして かける` });
+        return buildH([fracTok(n1, d1), { op: op === 'mul' ? '×' : '÷' }, fracTok(n2, d2), { op: '＝' }, a], { title: t(op === 'mul' ? 'content.problem.title.fractionMul' : 'content.problem.title.fractionDiv'), text: `${n1}/${d1} ${op === 'mul' ? '×' : '÷'} ${n2}/${d2}`, answer: a.text, help: op === 'mul' ? t('content.problem.multiplyFractions') : t('content.problem.reciprocal', { fraction: `${n2}/${d2}` }) });
       }
       if (op === 'decimal') {
-        const t = pickOf(rng, [2, 4, 5, 6, 8]); const d = r(2, 9); const n = r(1, d - 1); if (gcd(n, d) !== 1) continue;
-        const [rn, rd] = reduce(t * n, 10 * d);
+        const decimal = pickOf(rng, [2, 4, 5, 6, 8]); const d = r(2, 9); const n = r(1, d - 1); if (gcd(n, d) !== 1) continue;
+        const [rn, rd] = reduce(decimal * n, 10 * d);
         if (rd === 1 || rn > 99 || rd > 99) continue;
-        return buildH([{ n: decStr(t, 1) }, { op: '×' }, fracTok(n, d), { op: '＝' }, { fa: [rn, rd] }], { title: '小数と分数', text: `${decStr(t, 1)} × ${n}/${d}`, answer: `${rn}/${rd}`, help: `${decStr(t, 1)} ＝ ${t}/10` });
+        return buildH([{ n: decStr(decimal, 1) }, { op: '×' }, fracTok(n, d), { op: '＝' }, { fa: [rn, rd] }], { title: t('content.problem.title.decimalFraction'), text: `${decStr(decimal, 1)} × ${n}/${d}`, answer: `${rn}/${rd}`, help: `${decStr(decimal, 1)} ＝ ${decimal}/10` });
       }
     }
     throw new Error(`frac ${op}`);
   },
 };
 
-// Signature used to avoid repeats.
-export const signature = (p) => `${p.title}|${p.text}`;
+// Keep signatures compatible with saved Japanese play histories. The visible
+// title and expression may be localized, while this identity stays stable.
+const SOURCE_TITLE = new Map(Object.keys(jaContent)
+  .filter((key) => key.startsWith('content.problem.title.'))
+  .map((key) => [t(key), jaContent[key]]));
+export const signature = (p) => `${SOURCE_TITLE.get(p.title) || p.title}|${p.text}`;
+
+// Saved review and time-capsule problems include display strings. Refresh
+// those strings when a problem is loaded after the language has changed.
+const escapeRegExp = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const PROBLEM_MESSAGES = Object.keys(jaContent).filter((key) => key.startsWith('content.problem.'));
+const MESSAGE_PATTERNS = [jaContent, zhContent].flatMap((catalog) => PROBLEM_MESSAGES.map((key) => {
+  const names = [];
+  const parts = catalog[key].split(/\{([a-zA-Z]\w*)\}/g);
+  const pattern = parts.map((part, i) => {
+    if (i % 2) { names.push(part); return '(.+?)'; }
+    return escapeRegExp(part);
+  }).join('');
+  return { key, names, regex: new RegExp(`^${pattern}$`), fixed: parts.filter((_, i) => !(i % 2)).join('').length };
+})).sort((a, b) => b.fixed - a.fixed);
+function relocalize(message) {
+  if (typeof message !== 'string') return message;
+  for (const { key, names, regex } of MESSAGE_PATTERNS) {
+    const match = regex.exec(message);
+    if (!match) continue;
+    const params = Object.fromEntries(names.map((name, i) => [name, match[i + 1]]));
+    for (const name of ['place', 'name']) if (params[name]) params[name] = relocalizeStatic(params[name]);
+    return t(key, params);
+  }
+  return message;
+}
+function relocalizeStatic(message) {
+  for (const key of PROBLEM_MESSAGES) {
+    if (jaContent[key] === message || zhContent[key] === message) return t(key);
+  }
+  return message;
+}
+function problemDisplayText(p) {
+  const text = p.text;
+  let match;
+  if ((match = /^(\d+)は(\d+)と$/.exec(text))) return t('content.problem.composeText', { total: match[1], part: match[2] });
+  if ((match = /^(\d+)の1\/(\d+)$/.exec(text))) return t('content.problem.fractionOfText', { total: match[1], denominator: match[2] });
+  if ((match = /^(\d+)と(\d+)の(最大公約数|最小公倍数)$/.exec(text))) return t('content.problem.gcdText', { first: match[1], second: match[2], name: relocalizeStatic(match[3]) });
+  if ((match = /^(\d+)を(十|百|千)の位までのがい数に$/.exec(text))) return t('content.problem.roundText', { number: match[1], place: relocalizeStatic(`${match[2]}の位`) });
+  if ((match = /^(\d+)の(\d+)%$/.exec(text))) return t('content.problem.percentText', { number: match[1], percent: match[2] });
+  return text.replace(/(\d+)と(\d+\/\d+)/g, (_, whole, fraction) => t('content.problem.mixedNumber', { whole, fraction }));
+}
+export function localizeProblem(p) {
+  if (!p) return p;
+  p.title = relocalizeStatic(p.title);
+  const words = (p.cells || []).filter((cell) => cell.kind === 'word').sort((a, b) => a.r - b.r || a.c - b.c);
+  for (const word of words) {
+    const translated = relocalize(word.text);
+    const before = word.cs || 1;
+    const after = Math.max(1, Math.ceil(translated.length / 2));
+    const delta = after - before;
+    if (delta) {
+      for (const cell of p.cells) if (cell !== word && cell.r >= word.r && cell.r < word.r + (word.rs || 1) && cell.c > word.c) cell.c += delta;
+      for (const line of p.lines || []) if (line.r >= word.r && line.r < word.r + (word.rs || 1)) {
+        if (line.c0 > word.c) line.c0 += delta;
+        if (line.c1 > word.c) line.c1 += delta;
+      }
+    }
+    word.text = translated;
+    word.cs = after;
+  }
+  if (words.length) p.cols = Math.max(...p.cells.map((cell) => cell.c + (cell.cs || 1)));
+  for (const step of p.steps || []) {
+    step.label = relocalize(step.label);
+    if (step.hint) step.hint = relocalize(step.hint);
+    if (step.help?.text) step.help.text = relocalize(step.help.text);
+  }
+  p.displayText = problemDisplayText(p);
+  const displayAnswer = p.answer
+    .replace(/^(\d+) あまり (\d+)$/, (_, quotient, remainder) => t('content.problem.remainderAnswer', { quotient, remainder }))
+    .replace(/^(\d+)と(\d+\/\d+)$/, (_, whole, fraction) => t('content.problem.mixedNumber', { whole, fraction }));
+  p.answerText = `${p.displayText} ＝ ${displayAnswer}`;
+  return p;
+}
 
 // Make one problem for a skill, avoiding signatures in `recent` when possible.
 export function makeProblem(skillId, rng, recent = null) {
@@ -622,8 +703,7 @@ export function makeProblem(skillId, rng, recent = null) {
 }
 
 function finalize(p) {
-  p.answerText = p.kind === 'h' ? `${p.text} ＝ ${p.answer}` : `${p.text} ＝ ${p.answer}`;
-  return p;
+  return localizeProblem(p);
 }
 
 // ================================================================ legacy templates (fixed basic set)

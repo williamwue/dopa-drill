@@ -1,4 +1,5 @@
-// Pure scoring and "dopa" curves (kept separate from the director for testing).
+// Scoring and "dopa" curves (kept separate from the director for testing).
+import { SKILL } from './skills.js';
 
 export const BASIC_SCORE = 100;
 export const EXTRA_BASE = 10;
@@ -40,12 +41,18 @@ export function addDopa(L, base, combo) {
 }
 
 // Time allowed to enter the next answer cell before the combo breaks
-// (provisional). Harder skills (higher grade) get longer; the first cell of
-// a problem adds time to read it.
+// (provisional). A skill's explicit timing level controls the window; the
+// first cell of a problem adds time to read it. Curriculum placement does not
+// change this value.
 export const COMBO_TIME = { base: 3000, perGrade: 600, read: 2500 };
 export function comboWindowMs(grade = 3, first = false) {
   const g = Math.min(6, Math.max(1, grade || 3));
   return COMBO_TIME.base + COMBO_TIME.perGrade * (g - 1) + (first ? COMBO_TIME.read : 0);
+}
+export function skillComboWindowMs(skillId, first = false) {
+  const skill = SKILL[skillId];
+  if (!skill) throw new RangeError(`Unknown skill: ${skillId}`);
+  return comboWindowMs(skill.timing.comboGrade, first);
 }
 // Milestones worth a bigger show: 10, 20, 30, 50, 75, 100, then every 50.
 export const comboMilestone = (c) => [10, 20, 30, 50, 75].includes(c) || (c >= 100 && c % 50 === 0);

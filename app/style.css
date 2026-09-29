@@ -735,3 +735,26 @@ body.guide-open .logo *, body.guide-open .logo-burst { animation: none !importan
 .guide-help-fallback::after { content: ''; position: absolute; inset: -5px; border: 2px solid var(--yellow); border-radius: 14px; animation: guide-help-pulse 1.4s ease-in-out infinite; }
 @keyframes guide-help-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
 body.reduced #guide-help-ring, body.reduced .guide-help-fallback::after { animation: none; }
+
+/* Chinese preview: system CJK fonts avoid missing subset glyphs and downloads. */
+:root:lang(zh-CN) {
+  --round: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+  --chunky: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", system-ui, sans-serif;
+}
+:lang(zh-CN) .logo { font-weight: 900; }
+:lang(zh-CN) .big-btn { letter-spacing: .02em; }
+:lang(zh-CN) .tree-note { line-height: 1.6; }
+.preview-note { text-align: center; font-size: 12px; margin: 2px 0 0; color: #4a5078; }
+.preview-credit { text-align: center; font-size: 11px; line-height: 1.7; color: #555b77; margin: 16px 8px 4px; }
+.preview-credit a { color: #384f9d; text-underline-offset: 3px; }
+.language-row select { font: inherit; border: 2px solid var(--ink); border-radius: 10px; background: white; padding: 7px 12px; max-width: 100%; }
+.curriculum-row .set-note, .language-row .set-note { line-height: 1.6; }
+:lang(zh-CN) .step-label { overflow-wrap: anywhere; }
+:lang(zh-CN) #guide-heading { font-size: clamp(18px, 4.8vw, 25px); line-height: 1.4; }
+@media (max-width: 420px) {
+  :lang(zh-CN) .mode-row { gap: 6px; }
+  :lang(zh-CN) .mode-row .sub-btn { padding-inline: 9px; }
+}
+
+.fraction-note { font-size: 11px; line-height: 1.5; margin: 2px 0 5px; color: #454c78; text-align: center; }
+.fraction-note[hidden] { display: none; }

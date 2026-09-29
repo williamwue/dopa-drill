@@ -630,6 +630,8 @@ const MESSAGE_PATTERNS = [jaContent, zhContent].flatMap((catalog) => PROBLEM_MES
 })).sort((a, b) => b.fixed - a.fixed);
 function relocalize(message) {
   if (typeof message !== 'string') return message;
+  // Older saves used both phrases for the same first-operation hint.
+  message = message.replace(/^まず /, '先に ');
   for (const { key, names, regex } of MESSAGE_PATTERNS) {
     const match = regex.exec(message);
     if (!match) continue;

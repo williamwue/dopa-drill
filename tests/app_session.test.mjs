@@ -1,7 +1,7 @@
 // Session planning and mastery (id021, id022, id023).
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { makeRng } from '../app/js/problems.js';
+import { makeRng, signature } from '../app/js/problems.js';
 import { SKILL, SKILLS, MASTERY } from '../app/js/skills.js';
 import { ORDER, PLACEMENT, emptyProgress, recordResult, isUnlocked, isMastered, stateOf, gradePlan, levelPlan, placementPlan, frontier, problemFor, masterWithAncestors, dependents, relockTargets, relockSkill, TREE_LAYOUT, TREE_SUB, TREE_UPPER, TIMES_MAX, FIRST_MAX } from '../app/js/session.js';
 
@@ -57,7 +57,7 @@ test('level plan mixes review and frontier, problems avoid recent repeats', () =
   assert.ok(plan.basic.some((id) => frontier(prog).includes(id)));
   const rng = makeRng(2);
   const sigs = [];
-  for (let i = 0; i < 8; i++) { const p = problemFor(prog, 'g1-add-c', rng); sigs.push(`${p.text}`); recordResult(prog, 'g1-add-c', true, `${p.title}|${p.text}`); }
+  for (let i = 0; i < 8; i++) { const p = problemFor(prog, 'g1-add-c', rng); sigs.push(`${p.text}`); recordResult(prog, 'g1-add-c', true, signature(p)); }
   assert.equal(new Set(sigs).size, sigs.length);
   assert.ok(SKILLS.length === ORDER.length);
 });
@@ -158,7 +158,7 @@ test('stars: 1 at mastery, then accuracy, speed, retention and mastery of speed;
   // Star 4 needs a gap of a week, then three clean answers.
   for (let i = 0; i < 3; i++) answer(true, ok);
   assert.equal(starsOf(prog, id), 3);
-  assert.match(nextStar(prog, id, '2026-10-03').now, /あと 5日/);
+  assert.match(nextStar(prog, id, '2026-10-03').now, /再等 5 天/);
   day = 9;
   for (let i = 0; i < 3; i++) answer(true, ok);
   assert.equal(starsOf(prog, id), 4);

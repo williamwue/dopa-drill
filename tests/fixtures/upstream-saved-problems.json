@@ -1,0 +1,924 @@
+[
+  {
+    "skill": "g1-add3",
+    "signature": "3つのかず|3＋7＋3",
+    "problem": {
+      "kind": "h",
+      "rows": 1,
+      "cols": 8,
+      "cells": [
+        {
+          "id": "g0",
+          "r": 0,
+          "c": 0,
+          "cs": 1,
+          "rs": 1,
+          "text": "3",
+          "kind": "given"
+        },
+        {
+          "id": "o1",
+          "r": 0,
+          "c": 1,
+          "cs": 1,
+          "rs": 1,
+          "text": "＋",
+          "kind": "op"
+        },
+        {
+          "id": "g2",
+          "r": 0,
+          "c": 2,
+          "cs": 1,
+          "rs": 1,
+          "text": "7",
+          "kind": "given"
+        },
+        {
+          "id": "o3",
+          "r": 0,
+          "c": 3,
+          "cs": 1,
+          "rs": 1,
+          "text": "＋",
+          "kind": "op"
+        },
+        {
+          "id": "g4",
+          "r": 0,
+          "c": 4,
+          "cs": 1,
+          "rs": 1,
+          "text": "3",
+          "kind": "given"
+        },
+        {
+          "id": "o5",
+          "r": 0,
+          "c": 5,
+          "cs": 1,
+          "rs": 1,
+          "text": "＝",
+          "kind": "op"
+        },
+        {
+          "id": "x6",
+          "r": 0,
+          "c": 6,
+          "rs": 1,
+          "text": "1",
+          "kind": "input"
+        },
+        {
+          "id": "x7",
+          "r": 0,
+          "c": 7,
+          "rs": 1,
+          "text": "3",
+          "kind": "input"
+        }
+      ],
+      "lines": [],
+      "steps": [
+        {
+          "cell": "x6",
+          "digit": "1",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2",
+              "g4"
+            ],
+            "text": "まず 3 ＋ 7 ＝ 10"
+          }
+        },
+        {
+          "cell": "x7",
+          "digit": "3",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2",
+              "g4"
+            ],
+            "text": "まず 3 ＋ 7 ＝ 10"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "3つのかず",
+      "text": "3＋7＋3",
+      "answer": "13",
+      "help": "まず 3 ＋ 7 ＝ 10",
+      "skill": "g1-add3",
+      "answerText": "3＋7＋3 ＝ 13"
+    }
+  },
+  {
+    "skill": "g3-div-rem",
+    "signature": "あまりのあるわりざん|25 ÷ 4",
+    "problem": {
+      "kind": "h",
+      "rows": 1,
+      "cols": 9,
+      "cells": [
+        {
+          "id": "g0",
+          "r": 0,
+          "c": 0,
+          "cs": 2,
+          "rs": 1,
+          "text": "25",
+          "kind": "given"
+        },
+        {
+          "id": "o1",
+          "r": 0,
+          "c": 2,
+          "cs": 1,
+          "rs": 1,
+          "text": "÷",
+          "kind": "op"
+        },
+        {
+          "id": "g2",
+          "r": 0,
+          "c": 3,
+          "cs": 1,
+          "rs": 1,
+          "text": "4",
+          "kind": "given"
+        },
+        {
+          "id": "o3",
+          "r": 0,
+          "c": 4,
+          "cs": 1,
+          "rs": 1,
+          "text": "＝",
+          "kind": "op"
+        },
+        {
+          "id": "x4",
+          "r": 0,
+          "c": 5,
+          "rs": 1,
+          "text": "6",
+          "kind": "input"
+        },
+        {
+          "id": "w5",
+          "r": 0,
+          "c": 6,
+          "cs": 2,
+          "rs": 1,
+          "text": "あまり",
+          "kind": "word"
+        },
+        {
+          "id": "x6",
+          "r": 0,
+          "c": 8,
+          "rs": 1,
+          "text": "1",
+          "kind": "input"
+        }
+      ],
+      "lines": [],
+      "steps": [
+        {
+          "cell": "x4",
+          "digit": "6",
+          "label": "商",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2"
+            ],
+            "text": "4のだん 4 8 12 16 20 24 28"
+          }
+        },
+        {
+          "cell": "x6",
+          "digit": "1",
+          "label": "あまり",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2"
+            ],
+            "text": "4のだん 4 8 12 16 20 24 28"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "あまりのあるわりざん",
+      "text": "25 ÷ 4",
+      "answer": "6 あまり 1",
+      "help": "4のだん 4 8 12 16 20 24 28",
+      "skill": "g3-div-rem",
+      "answerText": "25 ÷ 4 ＝ 6 あまり 1"
+    }
+  },
+  {
+    "skill": "g4-order",
+    "signature": "けいさんのきまり|39−3×7",
+    "problem": {
+      "kind": "h",
+      "rows": 1,
+      "cols": 9,
+      "cells": [
+        {
+          "id": "g0",
+          "r": 0,
+          "c": 0,
+          "cs": 2,
+          "rs": 1,
+          "text": "39",
+          "kind": "given"
+        },
+        {
+          "id": "o1",
+          "r": 0,
+          "c": 2,
+          "cs": 1,
+          "rs": 1,
+          "text": "−",
+          "kind": "op"
+        },
+        {
+          "id": "g2",
+          "r": 0,
+          "c": 3,
+          "cs": 1,
+          "rs": 1,
+          "text": "3",
+          "kind": "given"
+        },
+        {
+          "id": "o3",
+          "r": 0,
+          "c": 4,
+          "cs": 1,
+          "rs": 1,
+          "text": "×",
+          "kind": "op"
+        },
+        {
+          "id": "g4",
+          "r": 0,
+          "c": 5,
+          "cs": 1,
+          "rs": 1,
+          "text": "7",
+          "kind": "given"
+        },
+        {
+          "id": "o5",
+          "r": 0,
+          "c": 6,
+          "cs": 1,
+          "rs": 1,
+          "text": "＝",
+          "kind": "op"
+        },
+        {
+          "id": "x6",
+          "r": 0,
+          "c": 7,
+          "rs": 1,
+          "text": "1",
+          "kind": "input"
+        },
+        {
+          "id": "x7",
+          "r": 0,
+          "c": 8,
+          "rs": 1,
+          "text": "8",
+          "kind": "input"
+        }
+      ],
+      "lines": [],
+      "steps": [
+        {
+          "cell": "x6",
+          "digit": "1",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2",
+              "g4"
+            ],
+            "text": "先に 3 × 7"
+          }
+        },
+        {
+          "cell": "x7",
+          "digit": "8",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2",
+              "g4"
+            ],
+            "text": "先に 3 × 7"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "けいさんのきまり",
+      "text": "39−3×7",
+      "answer": "18",
+      "help": "先に 3 × 7",
+      "skill": "g4-order",
+      "answerText": "39−3×7 ＝ 18"
+    }
+  },
+  {
+    "skill": "g4-round",
+    "signature": "がい数|44065を十の位までのがい数に",
+    "problem": {
+      "kind": "h",
+      "rows": 2,
+      "cols": 9,
+      "cells": [
+        {
+          "id": "g0",
+          "r": 0,
+          "c": 0,
+          "cs": 5,
+          "rs": 1,
+          "text": "44065",
+          "kind": "given"
+        },
+        {
+          "id": "w1",
+          "r": 0,
+          "c": 5,
+          "cs": 1,
+          "rs": 1,
+          "text": "を",
+          "kind": "word"
+        },
+        {
+          "id": "w2",
+          "r": 1,
+          "c": 0,
+          "cs": 3,
+          "rs": 1,
+          "text": "十の位まで",
+          "kind": "word"
+        },
+        {
+          "id": "o3",
+          "r": 1,
+          "c": 3,
+          "cs": 1,
+          "rs": 1,
+          "text": "→",
+          "kind": "op"
+        },
+        {
+          "id": "x4",
+          "r": 1,
+          "c": 4,
+          "rs": 1,
+          "text": "4",
+          "kind": "input"
+        },
+        {
+          "id": "x5",
+          "r": 1,
+          "c": 5,
+          "rs": 1,
+          "text": "4",
+          "kind": "input"
+        },
+        {
+          "id": "x6",
+          "r": 1,
+          "c": 6,
+          "rs": 1,
+          "text": "0",
+          "kind": "input"
+        },
+        {
+          "id": "x7",
+          "r": 1,
+          "c": 7,
+          "rs": 1,
+          "text": "7",
+          "kind": "input"
+        },
+        {
+          "id": "x8",
+          "r": 1,
+          "c": 8,
+          "rs": 1,
+          "text": "0",
+          "kind": "input"
+        }
+      ],
+      "lines": [],
+      "steps": [
+        {
+          "cell": "x4",
+          "digit": "4",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0"
+            ],
+            "text": "一の位を 四捨五入"
+          }
+        },
+        {
+          "cell": "x5",
+          "digit": "4",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0"
+            ],
+            "text": "一の位を 四捨五入"
+          }
+        },
+        {
+          "cell": "x6",
+          "digit": "0",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0"
+            ],
+            "text": "一の位を 四捨五入"
+          }
+        },
+        {
+          "cell": "x7",
+          "digit": "7",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0"
+            ],
+            "text": "一の位を 四捨五入"
+          }
+        },
+        {
+          "cell": "x8",
+          "digit": "0",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0"
+            ],
+            "text": "一の位を 四捨五入"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "がい数",
+      "text": "44065を十の位までのがい数に",
+      "answer": "44070",
+      "help": "一の位を 四捨五入",
+      "skill": "g4-round",
+      "answerText": "44065を十の位までのがい数に ＝ 44070"
+    }
+  },
+  {
+    "skill": "g4-frac-mixed",
+    "signature": "分数のたしひき|4と7/8 − 0と2/8",
+    "problem": {
+      "kind": "h",
+      "rows": 2,
+      "cols": 7,
+      "cells": [
+        {
+          "id": "w0",
+          "r": 0,
+          "c": 0,
+          "cs": 1,
+          "rs": 2,
+          "text": "4",
+          "kind": "given"
+        },
+        {
+          "id": "n1",
+          "r": 0,
+          "c": 1,
+          "cs": 1,
+          "text": "7",
+          "kind": "given",
+          "cls": "frac-n"
+        },
+        {
+          "id": "d2",
+          "r": 1,
+          "c": 1,
+          "cs": 1,
+          "text": "8",
+          "kind": "given",
+          "cls": "frac-d"
+        },
+        {
+          "id": "o3",
+          "r": 0,
+          "c": 2,
+          "cs": 1,
+          "rs": 2,
+          "text": "−",
+          "kind": "op"
+        },
+        {
+          "id": "n4",
+          "r": 0,
+          "c": 3,
+          "cs": 1,
+          "text": "2",
+          "kind": "given",
+          "cls": "frac-n"
+        },
+        {
+          "id": "d5",
+          "r": 1,
+          "c": 3,
+          "cs": 1,
+          "text": "8",
+          "kind": "given",
+          "cls": "frac-d"
+        },
+        {
+          "id": "o6",
+          "r": 0,
+          "c": 4,
+          "cs": 1,
+          "rs": 2,
+          "text": "＝",
+          "kind": "op"
+        },
+        {
+          "id": "x7",
+          "r": 0,
+          "c": 5,
+          "rs": 2,
+          "text": "4",
+          "kind": "input"
+        },
+        {
+          "id": "x8",
+          "r": 1,
+          "c": 6,
+          "text": "8",
+          "kind": "input",
+          "cls": "frac-d"
+        },
+        {
+          "id": "x9",
+          "r": 0,
+          "c": 6,
+          "text": "5",
+          "kind": "input",
+          "cls": "frac-n"
+        }
+      ],
+      "lines": [
+        {
+          "r": 0,
+          "c0": 1,
+          "c1": 1,
+          "frac": true
+        },
+        {
+          "r": 0,
+          "c0": 3,
+          "c1": 3,
+          "frac": true
+        },
+        {
+          "r": 0,
+          "c0": 6,
+          "c1": 6,
+          "frac": true
+        }
+      ],
+      "steps": [
+        {
+          "cell": "x7",
+          "digit": "4",
+          "label": "整数の部分",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "分母は 8 のまま"
+          }
+        },
+        {
+          "cell": "x8",
+          "digit": "8",
+          "label": "分母",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "分母は 8 のまま"
+          }
+        },
+        {
+          "cell": "x9",
+          "digit": "5",
+          "label": "分子",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "分母は 8 のまま"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "分数のたしひき",
+      "text": "4と7/8 − 0と2/8",
+      "answer": "4と5/8",
+      "help": "分母は 8 のまま",
+      "skill": "g4-frac-mixed",
+      "answerText": "4と7/8 − 0と2/8 ＝ 4と5/8"
+    }
+  },
+  {
+    "skill": "g5-gcd",
+    "signature": "最大公約数|18と12の最大公約数",
+    "problem": {
+      "kind": "h",
+      "rows": 2,
+      "cols": 6,
+      "cells": [
+        {
+          "id": "g0",
+          "r": 0,
+          "c": 0,
+          "cs": 2,
+          "rs": 1,
+          "text": "18",
+          "kind": "given"
+        },
+        {
+          "id": "w1",
+          "r": 0,
+          "c": 2,
+          "cs": 1,
+          "rs": 1,
+          "text": "と",
+          "kind": "word"
+        },
+        {
+          "id": "g2",
+          "r": 0,
+          "c": 3,
+          "cs": 2,
+          "rs": 1,
+          "text": "12",
+          "kind": "given"
+        },
+        {
+          "id": "w3",
+          "r": 0,
+          "c": 5,
+          "cs": 1,
+          "rs": 1,
+          "text": "の",
+          "kind": "word"
+        },
+        {
+          "id": "w4",
+          "r": 1,
+          "c": 0,
+          "cs": 3,
+          "rs": 1,
+          "text": "最大公約数",
+          "kind": "word"
+        },
+        {
+          "id": "o5",
+          "r": 1,
+          "c": 3,
+          "cs": 1,
+          "rs": 1,
+          "text": "＝",
+          "kind": "op"
+        },
+        {
+          "id": "x6",
+          "r": 1,
+          "c": 4,
+          "rs": 1,
+          "text": "6",
+          "kind": "input"
+        }
+      ],
+      "lines": [],
+      "steps": [
+        {
+          "cell": "x6",
+          "digit": "6",
+          "label": "こたえ",
+          "after": [],
+          "help": {
+            "ids": [
+              "g0",
+              "g2"
+            ],
+            "text": "どちらも わりきれる 数"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "最大公約数",
+      "text": "18と12の最大公約数",
+      "answer": "6",
+      "help": "どちらも わりきれる 数",
+      "skill": "g5-gcd",
+      "answerText": "18と12の最大公約数 ＝ 6"
+    }
+  },
+  {
+    "skill": "g5-frac-diff",
+    "signature": "分数のたしひき|3/5 − 2/7",
+    "problem": {
+      "kind": "h",
+      "rows": 2,
+      "cols": 6,
+      "cells": [
+        {
+          "id": "n0",
+          "r": 0,
+          "c": 0,
+          "cs": 1,
+          "text": "3",
+          "kind": "given",
+          "cls": "frac-n"
+        },
+        {
+          "id": "d1",
+          "r": 1,
+          "c": 0,
+          "cs": 1,
+          "text": "5",
+          "kind": "given",
+          "cls": "frac-d"
+        },
+        {
+          "id": "o2",
+          "r": 0,
+          "c": 1,
+          "cs": 1,
+          "rs": 2,
+          "text": "−",
+          "kind": "op"
+        },
+        {
+          "id": "n3",
+          "r": 0,
+          "c": 2,
+          "cs": 1,
+          "text": "2",
+          "kind": "given",
+          "cls": "frac-n"
+        },
+        {
+          "id": "d4",
+          "r": 1,
+          "c": 2,
+          "cs": 1,
+          "text": "7",
+          "kind": "given",
+          "cls": "frac-d"
+        },
+        {
+          "id": "o5",
+          "r": 0,
+          "c": 3,
+          "cs": 1,
+          "rs": 2,
+          "text": "＝",
+          "kind": "op"
+        },
+        {
+          "id": "x6",
+          "r": 1,
+          "c": 4,
+          "text": "3",
+          "kind": "input",
+          "cls": "frac-d"
+        },
+        {
+          "id": "x7",
+          "r": 1,
+          "c": 5,
+          "text": "5",
+          "kind": "input",
+          "cls": "frac-d"
+        },
+        {
+          "id": "x8",
+          "r": 0,
+          "c": 4,
+          "text": "1",
+          "kind": "input",
+          "cls": "frac-n"
+        },
+        {
+          "id": "x9",
+          "r": 0,
+          "c": 5,
+          "text": "1",
+          "kind": "input",
+          "cls": "frac-n"
+        }
+      ],
+      "lines": [
+        {
+          "r": 0,
+          "c0": 0,
+          "c1": 0,
+          "frac": true
+        },
+        {
+          "r": 0,
+          "c0": 2,
+          "c1": 2,
+          "frac": true
+        },
+        {
+          "r": 0,
+          "c0": 4,
+          "c1": 5,
+          "frac": true
+        }
+      ],
+      "steps": [
+        {
+          "cell": "x6",
+          "digit": "3",
+          "label": "分母",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "通分すると 分母は 35"
+          }
+        },
+        {
+          "cell": "x7",
+          "digit": "5",
+          "label": "分母",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "通分すると 分母は 35"
+          }
+        },
+        {
+          "cell": "x8",
+          "digit": "1",
+          "label": "分子",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "通分すると 分母は 35"
+          }
+        },
+        {
+          "cell": "x9",
+          "digit": "1",
+          "label": "分子",
+          "after": [],
+          "help": {
+            "ids": [],
+            "text": "通分すると 分母は 35"
+          }
+        }
+      ],
+      "bracket": null,
+      "title": "分数のたしひき",
+      "text": "3/5 − 2/7",
+      "answer": "11/35",
+      "help": "通分すると 分母は 35",
+      "skill": "g5-frac-diff",
+      "answerText": "3/5 − 2/7 ＝ 11/35"
+    }
+  }
+]

@@ -45,7 +45,8 @@ test('combo multiplier rises evenly to x2.0 at 20 and stays there (id046)', () =
 
 test('even a very fast full-combo run stays at a few 億 and never passes the ceiling (id046)', () => {
   const fast = run({ extras: 23 });
-  assert.match(fmtDopa(fast.L), /億$/);
+  assert.match(fmtDopa(fast.L), /亿$/);
+  assert.match(fmtDopa(fast.L, 'ja'), /億$/);
   assert.ok(fast.L < 8.8, `23 extras: ${fmtDopa(fast.L)}`);
   assert.ok(run({ extras: 200 }).L <= DOPA_MAX_L);
   assert.ok(run({ extras: 200, combo: false }).L < DOPA_MAX_L);
@@ -73,5 +74,6 @@ test('milestone units below 万', () => {
   assert.equal(unitLabel('千万'), '1000万');
   assert.equal(unitOf(8.3), '億');
   assert.equal(unitLabel('百'), '100');
-  assert.equal(unitLabel('億'), '1億');
+  assert.equal(unitLabel('億'), '1亿');
+  assert.equal(unitLabel('億', 'ja'), '1億');
 });

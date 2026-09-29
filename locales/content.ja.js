@@ -77,7 +77,7 @@ export default {
   'content.problem.quotient': '商',
   'content.problem.remainder': 'あまり',
   'content.problem.makeTen': '{number}に {add}で 10',
-  'content.problem.first': 'まず {expression}',
+  'content.problem.first': '先に {expression}',
   'content.problem.tenTimes': '{expression} の 10こぶん',
   'content.problem.divideInto': '{total}を {count}つに わける',
   'content.problem.combine': '{first} と {second}',

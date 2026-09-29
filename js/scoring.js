@@ -1,5 +1,6 @@
 // Scoring and "dopa" curves (kept separate from the director for testing).
 import { SKILL } from './skills.js';
+import { locale } from './i18n.js';
 
 export const BASIC_SCORE = 100;
 export const EXTRA_BASE = 10;
@@ -61,12 +62,14 @@ const UNITS = [[68, '無量大数'], [64, '不可思議'], [60, '那由他'], [5
 // Milestones below 万 are celebrated but not used as display units.
 const MILESTONES = [[3, '千'], [2, '百']];
 
-export function fmtDopa(L) {
+const ZH_UNITS = { 無量大数: '无量大数', 不可思議: '不可思议', 那由他: '那由他', 阿僧祇: '阿僧祇', 恒河沙: '恒河沙', 極: '极', 載: '载', 正: '正', 澗: '涧', 溝: '沟', 穣: '穰', 秭: '秭', 垓: '垓', 京: '京', 兆: '兆', 億: '亿', 万: '万' };
+const displayUnit = (unit, language) => language === 'zh-CN' ? ZH_UNITS[unit] || unit : unit;
+export function fmtDopa(L, language = locale) {
   if (!Number.isFinite(L) || L >= 72) return '∞';
-  if (L < 4) return Math.round(10 ** L).toLocaleString('ja-JP');
+  if (L < 4) return Math.round(10 ** L).toLocaleString(language);
   const u = UNITS.find(([e]) => L >= e - 1e-9);
   const m = 10 ** (L - u[0]);
-  return (m < 10 ? m.toFixed(1) : String(Math.floor(m))) + u[1];
+  return (m < 10 ? m.toFixed(1) : String(Math.floor(m))) + displayUnit(u[1], language);
 }
 
 export function unitOf(L) {
@@ -78,4 +81,4 @@ export function unitOf(L) {
 }
 
 const LABELS = { '∞': '∞', 百: '100', 千: '1000', 十万: '10万', 百万: '100万', 千万: '1000万' };
-export const unitLabel = (u) => LABELS[u] || `1${u}`;
+export const unitLabel = (u, language = locale) => LABELS[u] || `1${displayUnit(u, language)}`;

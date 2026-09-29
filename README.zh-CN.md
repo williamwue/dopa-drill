@@ -38,16 +38,22 @@ node --test tests/*.test.mjs
 
 ## 更新体验站
 
-在 `zh-cn-preview` 分支完成修改后，先运行测试，再发布 `app/` 子树：
+完成源码修改并提交后，运行测试，再构建带内容版本的静态发布包：
 
 ```sh
 node --test tests/*.test.mjs
 git push origin HEAD:zh-cn-preview
-git subtree split --prefix=app -b deploy/gh-pages
-git push origin deploy/gh-pages:gh-pages
+release_dir=$(mktemp -d)
+python3 tools/build_preview.py "$release_dir"
+pages_dir=$(mktemp -d)
+git clone --single-branch --branch gh-pages https://github.com/williamwue/dopa-drill.git "$pages_dir"
+cp -R "$release_dir/." "$pages_dir/"
+git -C "$pages_dir" add --all
+git -C "$pages_dir" commit -m "Publish textbook preview"
+git -C "$pages_dir" push origin HEAD:gh-pages
 ```
 
-`deploy/gh-pages` 是本地生成分支；后续运行会沿用相同子树历史。发布后检查 GitHub Pages 构建完成，并打开体验链接验证。不要强制覆盖远端历史。
+GitHub Pages 不使用 `_headers` 中的缓存设置。构建工具将脚本、全部相对导入、字典、样式及字体放入同一个 `assets/<内容版本>/` 路径，避免旧缓存与新版混用。不要直接发布未经构建的 `app/` 子树。保留已有版本资源可让已打开的页面继续运行；不强制覆盖远端历史。发布后检查 Pages 构建提交及 `release.json` 版本，并在原域名验证存档升级。
 
 ## 上游与许可
 

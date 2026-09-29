@@ -1,7 +1,8 @@
+import suzhou from './suzhou.js';
 import generalCalculation from './general-calculation.js';
 
 export const DEFAULT_CURRICULUM_ID = generalCalculation.id;
-export const CURRICULA = Object.freeze({ [generalCalculation.id]: generalCalculation });
+export const CURRICULA = Object.freeze(Object.fromEntries([generalCalculation, ...suzhou].map((c) => [c.id, c])));
 
 // Callers may pass a curriculum object to preview a future mapping without
 // changing the default curriculum or the skill's pedagogy timing.
@@ -12,8 +13,12 @@ export function getCurriculum(id = DEFAULT_CURRICULUM_ID) {
   return curriculum;
 }
 
+export function curriculumUnitsForSkill(skillId, curriculumId = DEFAULT_CURRICULUM_ID) {
+  return getCurriculum(curriculumId).units.filter((unit) => unit.skills.includes(skillId));
+}
+
 export function curriculumUnitForSkill(skillId, curriculumId = DEFAULT_CURRICULUM_ID) {
-  return getCurriculum(curriculumId).units.find((unit) => unit.skills.includes(skillId)) ?? null;
+  return curriculumUnitsForSkill(skillId, curriculumId)[0] ?? null;
 }
 
 export function curriculumGradeForSkill(skillId, curriculumId = DEFAULT_CURRICULUM_ID) {
@@ -21,5 +26,5 @@ export function curriculumGradeForSkill(skillId, curriculumId = DEFAULT_CURRICUL
 }
 
 export function curriculumSkillsOfGrade(grade, curriculumId = DEFAULT_CURRICULUM_ID) {
-  return getCurriculum(curriculumId).units.filter((unit) => unit.grade === grade).flatMap((unit) => unit.skills);
+  return [...new Set(getCurriculum(curriculumId).units.filter((unit) => unit.grade === grade).flatMap((unit) => unit.skills))];
 }

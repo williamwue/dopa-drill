@@ -1,5 +1,6 @@
 // Reusable calculation skills. Placement belongs to the selected curriculum;
 // timing is a separate pedagogy setting preserved from the original game.
+import textbookDefinitions from './textbook-skills.js';
 import { t } from './i18n.js';
 import { curriculumGradeForSkill, curriculumSkillsOfGrade } from './curricula/index.js';
 
@@ -90,7 +91,12 @@ export const SKILLS = DEFINITIONS.map((definition) => ({
   get name() { return t(this.nameKey); },
 }));
 
-export const SKILL = Object.fromEntries(SKILLS.map((s) => [s.id, s]));
+// SKILLS remains the original general-practice catalog for placement, tree and trophies.
+export const TEXTBOOK_SKILLS = textbookDefinitions.map((definition) => ({
+  ...definition, grade: null, get name() { return t(this.nameKey); },
+}));
+export const ALL_SKILLS = [...SKILLS, ...TEXTBOOK_SKILLS];
+export const SKILL = Object.fromEntries(ALL_SKILLS.map((s) => [s.id, s]));
 
 // Depth in the tree = longest prerequisite chain (roots are 0).
 export const DEPTH = (() => {

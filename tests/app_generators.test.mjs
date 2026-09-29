@@ -2,7 +2,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { makeRng, makeProblem, signature } from '../app/js/problems.js';
-import { SKILLS } from '../app/js/skills.js';
+import { ALL_SKILLS as SKILLS } from '../app/js/skills.js';
 
 const num = (s) => Number(String(s).replace(/,/g, ''));
 // Evaluate "a op b" texts produced by the generators.
@@ -29,7 +29,7 @@ function checkLayout(p) {
   const ids = new Set(p.cells.map((c) => c.id));
   for (const st of p.steps) {
     assert.ok(ids.has(st.cell), `${p.skill}: step cell ${st.cell}`);
-    assert.match(st.digit, /^\d$/);
+    assert.match(st.digit, p.signed ? /^[-\d]$/ : /^\d$/);
     for (const a of st.after) assert.ok(ids.has(a) || (p.lines || []).some((l) => l.id === a), `${p.skill}: after ${a}`);
   }
   assert.ok(p.steps.length >= 1);
@@ -50,7 +50,7 @@ function checkAnswer(p) {
   } else {
     const expect = p.answer.replace(/ あまり /, '').replace(/と/, '').replace('.', '');
     // Fractions are typed denominator first.
-    const fr = p.answer.match(/^(?:(\d+)と)?(\d+)\/(\d+)$/);
+    const fr = p.answer.match(/^(?:(\d+)と)?(-?\d+)\/(\d+)$/);
     const want = fr ? `${fr[1] || ''}${fr[3]}${fr[2]}` : expect;
     assert.equal(typed, want, `${p.skill} ${p.text} -> ${p.answer}`);
     const v = evalText(p.text);

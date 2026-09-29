@@ -33,6 +33,11 @@
       </h1>
       <p class="preview-note" data-i18n="preview.title">通用计算练习 · 教材适配中</p>
       <div class="title-stage" id="title-stage" aria-hidden="true"></div>
+      <section class="textbook-card">
+        <label for="curriculum" data-i18n="textbook.choose">选择课程</label>
+        <select id="curriculum"></select>
+        <div id="textbook-units" hidden></div>
+      </section>
       <div class="modes" id="modes">
         <button type="button" id="start" class="big-btn level-btn"><span data-i18n="html.message027">适合我的练习</span><small id="level-sub" data-i18n="html.message028">首次练习先做能力初测</small></button>
         <button type="button" id="start-review" class="sub-btn review-btn review-main" hidden><span data-i18n="html.message029">错题复习</span> <b id="review-count">0</b></button>
@@ -132,7 +137,7 @@
         <button type="button" data-key="7">7</button><button type="button" data-key="8">8</button><button type="button" data-key="9">9</button>
         <button type="button" data-key="4">4</button><button type="button" data-key="5">5</button><button type="button" data-key="6">6</button>
         <button type="button" data-key="1">1</button><button type="button" data-key="2">2</button><button type="button" data-key="3">3</button>
-        <button type="button" data-key="Backspace" class="del" aria-label="删除错误数字" data-i18n-aria-label="html.message017">⌫</button><button type="button" data-key="0" class="zero">0</button>
+        <button type="button" data-key="Backspace" class="del" aria-label="删除错误数字" data-i18n-aria-label="html.message017">⌫</button><button type="button" data-key="0" class="zero">0</button><button type="button" data-key="-" id="minus-key" data-i18n-aria-label="textbook.minus" aria-label="负号" hidden>−</button>
       </div>
     </section>
 

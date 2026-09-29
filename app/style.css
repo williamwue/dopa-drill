@@ -758,3 +758,15 @@ body.reduced #guide-help-ring, body.reduced .guide-help-fallback::after { animat
 
 .fraction-note { font-size: 11px; line-height: 1.5; margin: 2px 0 5px; color: #454c78; text-align: center; }
 .fraction-note[hidden] { display: none; }
+
+/* Textbook entry shares saved practice records with the existing game. */
+.textbook-card { width: min(100%, 400px); box-sizing: border-box; margin: 12px 16px; padding: 14px; border: 2px solid var(--ink); border-radius: 16px; background: #fff; text-align: left; }
+.textbook-card label { display: block; font-weight: bold; margin-bottom: 8px; }
+.textbook-card select { width: 100%; min-height: 44px; font: inherit; font-size: 14px; }
+#textbook-units p { font-size: 13px; line-height: 1.6; }
+#textbook-units h3 { font-size: 15px; margin: 18px 0 8px; }
+.textbook-skill { display: block; width: 100%; min-height: 48px; margin: 6px 0; padding: 10px; border: 1px solid var(--ink); border-radius: 10px; background: #eef3ff; color: var(--ink); font: inherit; text-align: left; }
+.textbook-skill small { display: block; font-size: 12px; opacity: .75; margin-top: 4px; }
+.pad.signed button.zero { grid-column: auto; }
+
+#start[hidden], .grades[hidden], #open-tree[hidden], #minus-key[hidden] { display: none; }

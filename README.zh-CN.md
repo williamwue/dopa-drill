@@ -4,6 +4,8 @@
 
 **通用计算练习，教材适配中。** 当前沿用原项目课程编排，尚未对应中国教材具体版本、年级学期和单元。能力初测仅用于安排练习。
 
+[打开中文体验版](https://williamwue.github.io/dopa-drill/) · [切换日语](https://williamwue.github.io/dopa-drill/?lang=ja)
+
 ## 本地运行
 
 无需安装依赖或构建：
@@ -32,6 +34,19 @@ node --test tests/*.test.mjs
 - [实现范围与结构](docs/zh-CN/IMPLEMENTATION.md)
 - [课程配置接口](docs/curriculum-architecture.md)
 - [验证与部署记录](docs/zh-CN/VERIFICATION.md)
+
+## 更新体验站
+
+在 `zh-cn-preview` 分支完成修改后，先运行测试，再发布 `app/` 子树：
+
+```sh
+node --test tests/*.test.mjs
+git push origin HEAD:zh-cn-preview
+git subtree split --prefix=app -b deploy/gh-pages
+git push origin deploy/gh-pages:gh-pages
+```
+
+`deploy/gh-pages` 是本地生成分支；后续运行会沿用相同子树历史。发布后检查 GitHub Pages 构建完成，并打开体验链接验证。不要强制覆盖远端历史。
 
 ## 上游与许可
 

@@ -1,0 +1,128 @@
+{
+  "checked_date": "2026-09-30",
+  "brand": {
+    "english": "DopaDash",
+    "chinese": "多巴冲刺",
+    "status": "User-selected names; this audit does not change them."
+  },
+  "method": [
+    "Verisign .com registry RDAP read",
+    "Vercel domains registrar search with exact domain names",
+    "T3 collaborative browser visits to Google and Bing exact-name searches",
+    "T3 collaborative browser visits to existing domains and DOPA DASH about page"
+  ],
+  "registry": {
+    "url": "https://rdap.verisign.com/com/v1/domain/dopadash.com",
+    "http_status": 200,
+    "checked_at": "2026-09-30T07:52:43.351968+00:00",
+    "domain": "DOPADASH.COM",
+    "registration": "2025-03-02T22:46:34Z",
+    "expiration": "2027-03-02T22:46:34Z"
+  },
+  "domain_quotes": {
+    "provider": "Vercel domains registrar API",
+    "currency": "USD",
+    "term_years": 1,
+    "results": [
+      {
+        "domain": "dopadash.com",
+        "available": false
+      },
+      {
+        "domain": "playdopadash.com",
+        "available": true,
+        "years": 1,
+        "price": 11.25,
+        "renewalPrice": 11.25,
+        "premium": false
+      },
+      {
+        "domain": "dopadashmath.com",
+        "available": true,
+        "years": 1,
+        "price": 11.25,
+        "renewalPrice": 11.25,
+        "premium": false
+      },
+      {
+        "domain": "dopadashgame.com",
+        "available": true,
+        "years": 1,
+        "price": 11.25,
+        "renewalPrice": 11.25,
+        "premium": false
+      },
+      {
+        "domain": "dopadash.app",
+        "available": true,
+        "years": 1,
+        "price": 14.99,
+        "renewalPrice": 15,
+        "premium": false
+      },
+      {
+        "domain": "dopadash.games",
+        "available": true,
+        "years": 1,
+        "price": 14.99,
+        "renewalPrice": 28,
+        "premium": false
+      },
+      {
+        "domain": "dopadash.io",
+        "available": false
+      },
+      {
+        "domain": "dopadash.ai",
+        "available": false
+      },
+      {
+        "domain": "dopadash.org",
+        "available": false
+      }
+    ],
+    "limitations": [
+      "Availability and quotes are point-in-time and must be confirmed at checkout.",
+      "No aftermarket purchase quote for dopadash.com was obtained.",
+      "These quotes are not a purchase or a reservation."
+    ]
+  },
+  "findings": [
+    {
+      "url": "https://dopadash.io/",
+      "about_url": "https://dopadash.io/about.html",
+      "title": "DOPA DASH: Color Party Rhythm Game | Play Free",
+      "observed": "Live browser game page with PLAY, stage, score and party UI.",
+      "self_description": "DOPAPLAY browser rhythm/color party game, levels about a minute; about page describes daily runs and challenge links.",
+      "assessment": "Exact English-name reuse in the browser game category; material discoverability and user-confusion concern.",
+      "screenshot": "/Users/williamwue/.t3/userdata/browser-artifacts/browser-screenshot-dopadash-io-munt8ugp-8dc9087d.png"
+    },
+    {
+      "url": "https://dopadash.com/login",
+      "title": "DopamineoGym CRM",
+      "observed": "Live Hebrew gym-management login page, not an unused parked domain."
+    },
+    {
+      "url": "https://dopadash.ai/landing",
+      "observed": "Bing search snippet used DopaDash and a dopamine product description; direct live visit instead redirected to a parking/ad page.",
+      "assessment": "An active product could not be confirmed; do not treat the cached search snippet as current product evidence."
+    },
+    {
+      "url": "https://fimtale.com/channel/68/topics",
+      "observed": "Existing Dopadash / 多云组 fan-content channel."
+    },
+    {
+      "query": "\"多巴冲刺\"",
+      "url": "https://www.google.com/search?q=%22%E5%A4%9A%E5%B7%B4%E5%86%B2%E5%88%BA%22",
+      "observed": "Google explicitly displayed no matching results for the quoted name and then showed unquoted fallback results.",
+      "limitations": "A single search-engine sample is not proof of global uniqueness."
+    }
+  ],
+  "recommendation": "Re-evaluate the English brand before purchasing a DopaDash-based domain. Retain the selected Chinese name as a candidate. Adding play/math to a domain does not remove the existing exact game-name overlap.",
+  "scope_limits": [
+    "Public name and domain availability audit only; no formal trademark database clearance was completed.",
+    "No domain purchase, contact with domain owners, product renaming or release occurred.",
+    "Google AI Overview was not used as factual evidence.",
+    "Existing game features cited above are website self-descriptions, not a full gameplay verification."
+  ]
+}

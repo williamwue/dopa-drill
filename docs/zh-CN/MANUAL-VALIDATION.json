@@ -2,7 +2,7 @@
   "date": "2026-10-02",
   "status": "prepared-not-executed",
   "target": "Chinese textbook practice including sk7-power and sk7-mixed",
-  "releaseRequirement": "Confirm the tested site revision contains both new skills; the current public release does not.",
+  "releaseRequirement": "Use https://williamwue.github.io/dopa-drill/ and confirm revision 8aa550ea59083522, then choose the grade-seven curriculum and find both new skills. Record the actual revision if it changes.",
   "privacy": "Record anonymous feedback and device/browser details; do not collect children's names or school identifiers.",
   "recordFields": ["date", "releaseRevision", "device", "os", "browser", "viewport", "network", "skill", "task", "result", "issue", "reproductionSteps"],
   "sessions": [

@@ -4,7 +4,8 @@
 
 **通用计算 + 苏州教材计算专项。** 首页可选择苏教版三年级上册（2025 秋目录）或苏科版七年级上册（2024 修订目录），分别提供 15 项计算专项与 8 项有理数专项。只覆盖列明的技能，未覆盖单元会明确标注；目录依据见[教材适配基准](docs/zh-CN/TEXTBOOK-BASELINE.md)。通用课程保留原项目编排，能力初测仅用于安排练习。
 
-2026-10-02 新增乘方与混合运算已完成本地验证，尚未发布到上述公开体验站。
+2026-10-02 新增乘方与混合运算已发布到公开体验站，资源版本为 `8aa550ea59083522`；
+本地测试与线上答题、复习、同源存档升级已通过，真实手机、学生试用及大陆网络实测仍待执行。
 乘方提供 2–4 次方，区分 `(-2)²` 与 `−2²`；混合运算含括号、乘方与带符号四则运算，
 同级运算从左到右，分数答案要求最简分数。详细范围和验证见[本轮记录](docs/zh-CN/POWER-MIXED-VERIFICATION.json)。
 
@@ -44,6 +45,7 @@ node --test tests/*.test.mjs
 - [第一轮验证与部署记录](docs/zh-CN/VERIFICATION.md)
 - [教材专项验证与部署记录](docs/zh-CN/TEXTBOOK-VERIFICATION.md)
 - [乘方与混合运算本地验证](docs/zh-CN/POWER-MIXED-VERIFICATION.json)
+- [乘方与混合运算发布及线上验收](docs/zh-CN/POWER-MIXED-PUBLICATION.json)
 - [真实设备、儿童试用与大陆网络验证表](docs/zh-CN/MANUAL-VALIDATION.json)
 
 ## 更新体验站

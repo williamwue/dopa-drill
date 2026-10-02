@@ -1,0 +1,499 @@
+{
+  "date": "2026-10-02",
+  "status": "published-online-verified-manual-validation-pending",
+  "site": "https://williamwue.github.io/dopa-drill/",
+  "sourceBranch": "zh-cn-preview",
+  "sourceCommit": "d7f50a3651925ec92f05b47c93915349a7ab1b49",
+  "pagesCommit": "ed59b901367157230b40181aeee44c1802466311",
+  "pagesBuild": {
+    "status": "built",
+    "error": null
+  },
+  "revision": "8aa550ea59083522",
+  "prePublicationRevision": "7875724300aebc88",
+  "authorization": "User requested 按照建议继续 after recommendation to commit/push source, publish versioned Pages and verify online.",
+  "releaseGate": {
+    "isolatedTests": {
+      "passed": 80,
+      "failed": 0,
+      "skipped": 0,
+      "cancelled": 0
+    },
+    "appBytesMatchSourceCommit": true,
+    "oldAssetFilesRetained": 36,
+    "onlineAssetFilesChecked": 73,
+    "allHttp200": true,
+    "allSha256Match": true
+  },
+  "browserVerification": {
+    "tool": "T3 collaborative browser",
+    "method": "Normal UI button clicks and keyboard events; expected digits read for automated entry. No answer, score, timer or localStorage writes.",
+    "baselinePractice": {
+      "curriculum": "suzhou-g7-upper",
+      "errors": [],
+      "history": [
+        {
+          "at": 1790914774011,
+          "count": 6,
+          "day": "2026-10-02",
+          "dopaL": 3.310816597549392,
+          "firstRate": 1,
+          "id": "muqgeznfcj",
+          "mode": "practice",
+          "ng": 0,
+          "ok": 6,
+          "score": 100,
+          "skill": "sk7-div",
+          "timeMs": 94576
+        }
+      ],
+      "release": "https://williamwue.github.io/dopa-drill/assets/7875724300aebc88/js/main.js",
+      "screen": "result",
+      "seen": [
+        {
+          "answer": "4",
+          "qi": 0,
+          "text": "4 ÷ (1)"
+        },
+        {
+          "answer": "-8/5",
+          "qi": 1,
+          "text": "-2 ÷ (5/4)"
+        },
+        {
+          "answer": "25/24",
+          "qi": 2,
+          "text": "-5/4 ÷ (-6/5)"
+        },
+        {
+          "answer": "4/9",
+          "qi": 3,
+          "text": "1/3 ÷ (3/4)"
+        },
+        {
+          "answer": "-1/80",
+          "qi": 4,
+          "text": "1/8 ÷ (-10)"
+        },
+        {
+          "answer": "-9/56",
+          "qi": 5,
+          "text": "9/7 ÷ (-8)"
+        }
+      ],
+      "settings": {
+        "count": 6,
+        "motion": 0,
+        "sound": false,
+        "volume": 0.8
+      },
+      "skills": {
+        "sk7-div": {
+          "n": 6,
+          "stars": 1
+        }
+      }
+    },
+    "practiceQuestions": [
+      {
+        "answer": "1/4",
+        "cols": 4,
+        "qi": 0,
+        "rows": 4,
+        "skill": "sk7-power",
+        "text": "(1/2)²"
+      },
+      {
+        "answer": "-16",
+        "cols": 4,
+        "qi": 1,
+        "rows": 2,
+        "skill": "sk7-power",
+        "text": "−2⁴"
+      },
+      {
+        "answer": "64",
+        "cols": 3,
+        "qi": 2,
+        "rows": 2,
+        "skill": "sk7-power",
+        "text": "4³"
+      },
+      {
+        "answer": "1/25",
+        "cols": 5,
+        "qi": 3,
+        "rows": 4,
+        "skill": "sk7-power",
+        "text": "(-1/5)²"
+      },
+      {
+        "answer": "-125",
+        "cols": 5,
+        "qi": 4,
+        "rows": 2,
+        "skill": "sk7-power",
+        "text": "(-5)³"
+      },
+      {
+        "answer": "0",
+        "cols": 2,
+        "qi": 5,
+        "rows": 2,
+        "skill": "sk7-power",
+        "text": "0²"
+      },
+      {
+        "answer": "1/8",
+        "cols": 10,
+        "qi": 0,
+        "rows": 4,
+        "skill": "sk7-mixed",
+        "text": "(1＋(-3/4))÷2"
+      },
+      {
+        "answer": "1/4",
+        "cols": 7,
+        "qi": 1,
+        "rows": 4,
+        "skill": "sk7-mixed",
+        "text": "(1/4)＋0÷1"
+      },
+      {
+        "answer": "9",
+        "cols": 12,
+        "qi": 2,
+        "rows": 4,
+        "skill": "sk7-mixed",
+        "text": "2²＋(-4)×(-5/4)"
+      },
+      {
+        "answer": "-7/3",
+        "cols": 10,
+        "qi": 3,
+        "rows": 4,
+        "skill": "sk7-mixed",
+        "text": "(-1)−1÷(3/4)"
+      },
+      {
+        "answer": "7/2",
+        "cols": 11,
+        "qi": 4,
+        "rows": 4,
+        "skill": "sk7-mixed",
+        "text": "(-2)²−(1/2)÷1"
+      },
+      {
+        "answer": "-47/54",
+        "cols": 9,
+        "qi": 5,
+        "rows": 6,
+        "skill": "sk7-mixed",
+        "text": "(-4/3)³−(-3)×(1/2)"
+      }
+    ],
+    "results": [
+      {
+        "at": 1790914774011,
+        "count": 6,
+        "day": "2026-10-02",
+        "dopaL": 3.310816597549392,
+        "firstRate": 1,
+        "id": "muqgeznfcj",
+        "mode": "practice",
+        "ng": 0,
+        "ok": 6,
+        "score": 100,
+        "skill": "sk7-div",
+        "timeMs": 94576
+      },
+      {
+        "at": 1790914931560,
+        "count": 6,
+        "day": "2026-10-02",
+        "dopaL": 3.29361646856882,
+        "firstRate": 0.8333333333333334,
+        "id": "muqgid7s6r4",
+        "mode": "practice",
+        "ng": 1,
+        "ok": 6,
+        "score": 100,
+        "skill": "sk7-power",
+        "timeMs": 39225
+      },
+      {
+        "at": 1790914969738,
+        "count": 6,
+        "day": "2026-10-02",
+        "dopaL": 3.108038663577858,
+        "firstRate": 0.8333333333333334,
+        "id": "muqgj6oa29f",
+        "mode": "practice",
+        "ng": 1,
+        "ok": 6,
+        "score": 100,
+        "skill": "sk7-mixed",
+        "timeMs": 21739
+      },
+      {
+        "at": 1790915002177,
+        "count": 2,
+        "day": "2026-10-02",
+        "dopaL": 2.6022185675552443,
+        "firstRate": 1,
+        "id": "muqgjvpduv",
+        "mode": "review",
+        "ng": 0,
+        "ok": 2,
+        "score": 100,
+        "timeMs": 1233
+      },
+      {
+        "at": 1790915126999,
+        "count": 6,
+        "day": "2026-10-02",
+        "dopaL": 3.243747800331974,
+        "firstRate": 1,
+        "id": "muqgmk0n1fl",
+        "mode": "practice",
+        "ng": 0,
+        "ok": 6,
+        "score": 100,
+        "skill": "sj3-div-zero-quotient",
+        "timeMs": 8110
+      }
+    ],
+    "review": {
+      "questions": [
+        {
+          "answer": "1/4",
+          "qi": 0,
+          "skill": "sk7-power",
+          "text": "(1/2)²"
+        },
+        {
+          "answer": "1/8",
+          "qi": 1,
+          "skill": "sk7-mixed",
+          "text": "(1＋(-3/4))÷2"
+        }
+      ],
+      "remaining": 0
+    },
+    "primaryRegression": [
+      {
+        "answer": "20",
+        "cols": 4,
+        "qi": 0,
+        "rows": 4,
+        "text": "160 ÷ 8"
+      },
+      {
+        "answer": "70",
+        "cols": 4,
+        "qi": 1,
+        "rows": 4,
+        "text": "210 ÷ 3"
+      },
+      {
+        "answer": "101",
+        "cols": 4,
+        "qi": 2,
+        "rows": 6,
+        "text": "909 ÷ 9"
+      },
+      {
+        "answer": "70",
+        "cols": 4,
+        "qi": 3,
+        "rows": 4,
+        "text": "490 ÷ 7"
+      },
+      {
+        "answer": "140",
+        "cols": 4,
+        "qi": 4,
+        "rows": 6,
+        "text": "560 ÷ 4"
+      },
+      {
+        "answer": "110",
+        "cols": 4,
+        "qi": 5,
+        "rows": 6,
+        "text": "990 ÷ 9"
+      }
+    ],
+    "localeSwitch": {
+      "japanese": {
+        "historyIds": [
+          "muqgeznfcj",
+          "muqgid7s6r4",
+          "muqgj6oa29f",
+          "muqgjvpduv"
+        ],
+        "href": "https://williamwue.github.io/dopa-drill/?lang=ja",
+        "lang": "ja",
+        "mixed": 7,
+        "newButtons": [
+          "有理数の累乗7 問練習済み · 1 星",
+          "有理数の混合計算7 問練習済み · 1 星"
+        ],
+        "power": 7,
+        "review": 0
+      },
+      "chinese": {
+        "historyIds": [
+          "muqgeznfcj",
+          "muqgid7s6r4",
+          "muqgj6oa29f",
+          "muqgjvpduv"
+        ],
+        "href": "https://williamwue.github.io/dopa-drill/?lang=zh-CN",
+        "lang": "zh-CN",
+        "newButtons": [
+          "有理数乘方已练 7 题 · 1 星",
+          "有理数混合运算已练 7 题 · 1 星"
+        ],
+        "release": "https://williamwue.github.io/dopa-drill/assets/8aa550ea59083522/js/main.js",
+        "review": 0,
+        "settings": {
+          "count": 6,
+          "motion": 0,
+          "sound": false,
+          "volume": 0.8
+        },
+        "skills": {
+          "sk7-div": 6,
+          "sk7-mixed": 7,
+          "sk7-power": 7
+        }
+      }
+    },
+    "afterFinalReload": {
+      "history": [
+        {
+          "at": 1790914774011,
+          "count": 6,
+          "day": "2026-10-02",
+          "dopaL": 3.310816597549392,
+          "firstRate": 1,
+          "id": "muqgeznfcj",
+          "mode": "practice",
+          "ng": 0,
+          "ok": 6,
+          "score": 100,
+          "skill": "sk7-div",
+          "timeMs": 94576
+        },
+        {
+          "at": 1790914931560,
+          "count": 6,
+          "day": "2026-10-02",
+          "dopaL": 3.29361646856882,
+          "firstRate": 0.8333333333333334,
+          "id": "muqgid7s6r4",
+          "mode": "practice",
+          "ng": 1,
+          "ok": 6,
+          "score": 100,
+          "skill": "sk7-power",
+          "timeMs": 39225
+        },
+        {
+          "at": 1790914969738,
+          "count": 6,
+          "day": "2026-10-02",
+          "dopaL": 3.108038663577858,
+          "firstRate": 0.8333333333333334,
+          "id": "muqgj6oa29f",
+          "mode": "practice",
+          "ng": 1,
+          "ok": 6,
+          "score": 100,
+          "skill": "sk7-mixed",
+          "timeMs": 21739
+        },
+        {
+          "at": 1790915002177,
+          "count": 2,
+          "day": "2026-10-02",
+          "dopaL": 2.6022185675552443,
+          "firstRate": 1,
+          "id": "muqgjvpduv",
+          "mode": "review",
+          "ng": 0,
+          "ok": 2,
+          "score": 100,
+          "timeMs": 1233
+        },
+        {
+          "at": 1790915126999,
+          "count": 6,
+          "day": "2026-10-02",
+          "dopaL": 3.243747800331974,
+          "firstRate": 1,
+          "id": "muqgmk0n1fl",
+          "mode": "practice",
+          "ng": 0,
+          "ok": 6,
+          "score": 100,
+          "skill": "sj3-div-zero-quotient",
+          "timeMs": 8110
+        }
+      ],
+      "href": "https://williamwue.github.io/dopa-drill/?lang=zh-CN",
+      "lang": "zh-CN",
+      "newButtons": [
+        "有理数乘方已练 7 题 · 1 星",
+        "有理数混合运算已练 7 题 · 1 星"
+      ],
+      "release": "https://williamwue.github.io/dopa-drill/assets/8aa550ea59083522/js/main.js",
+      "reviewRemaining": 0,
+      "scrollWidth": 390,
+      "settings": {
+        "count": 6,
+        "motion": 0,
+        "sound": false,
+        "volume": 0.8
+      },
+      "skills": {
+        "sj3-div-zero-quotient": {
+          "n": 6,
+          "stars": 1
+        },
+        "sk7-div": {
+          "n": 6,
+          "stars": 1
+        },
+        "sk7-mixed": {
+          "n": 7,
+          "stars": 1
+        },
+        "sk7-power": {
+          "n": 7,
+          "stars": 1
+        }
+      },
+      "width": 390
+    },
+    "applicationErrorsDuringFlows": [],
+    "viewport": {
+      "newSkills": "320x740",
+      "primaryRegression": "390x844",
+      "note": "Desktop browser viewport emulation, not physical devices."
+    }
+  },
+  "evidenceDirectory": "G:/Projects/_ops-local/dopa-drill-release-20261002",
+  "screenshots": [
+    "public-power-result.png",
+    "public-mixed-input.png"
+  ],
+  "manualValidation": "MANUAL-VALIDATION.json",
+  "limitations": [
+    "Real Android/iPhone hardware, target-grade student trials and mainland broadband/mobile network measurements have not been executed.",
+    "iOS Simulator unavailable on this Windows environment; AppVanta_API35_Pilot and AppVanta_Verification_API37 failed to boot. No emulator acceptance result obtained.",
+    "Electron preload errors are visible in preview-host diagnostics; application error/unhandled-rejection listeners during answer flows recorded no errors.",
+    "Extra-round 90-second verification remains the earlier local result; this publication did not repeat the extra round online."
+  ]
+}

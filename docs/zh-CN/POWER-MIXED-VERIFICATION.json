@@ -1,7 +1,8 @@
 {
   "date": "2026-10-02",
   "baseCommit": "6697329791b9e9cfb9b00040986584599971d867",
-  "status": "locally-verified-publication-pending",
+  "status": "published-online-verified-manual-validation-pending",
+  "publicationRecord": "POWER-MIXED-PUBLICATION.json",
   "skills": {
     "primary": 15,
     "secondary": 8,
@@ -71,7 +72,7 @@
     "storage": "Baseline save copied to LAN origin as a test fixture; subsequent same-origin artifact updates and language switches retained old/new records. No domain migration feature implemented.",
     "locale": "Chinese/Japanese switch retained six history IDs, power count 7, mixed count 28, empty review queue"
   },
-  "production": {
+  "prePublicationProductionBaseline": {
     "checked": true,
     "pagesStatus": "built",
     "pagesCommit": "fa8c6cab3e305e53d24b072cb1ae7dc44d5ba6c5",

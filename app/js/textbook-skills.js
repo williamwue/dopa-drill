@@ -318,5 +318,9 @@ export default [
         "mode": "div"
       }
     ]
-  }
+  },
+  { "id": "sk7-power", "nameKey": "skills.sk7-power", "timing": { "comboGrade": 6 },
+    "lane": 1, "req": [], "gen": ["rationalExpression", { "mode": "power" }] },
+  { "id": "sk7-mixed", "nameKey": "skills.sk7-mixed", "timing": { "comboGrade": 6 },
+    "lane": 1, "req": [], "gen": ["rationalExpression", { "mode": "mixed" }] }
 ];

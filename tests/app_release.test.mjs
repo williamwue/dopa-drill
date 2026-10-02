@@ -2,14 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { mkdtemp, readFile, access, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { join, sep } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { execFileSync } from 'node:child_process';
 
 test('Pages release isolates all imports and fonts under the same deterministic asset revision', async () => {
-  const root = await mkdtemp(join(tmpdir(), 'dopa-release-test-'));
+  const root = await mkdtemp(join(tmpdir(), 'dopa release test-'));
   try {
     const script = new URL('../tools/build_preview.py', import.meta.url);
-    const build = (out) => execFileSync('python3', [script.pathname, out], {encoding: 'utf8'}).trim();
+    const python = process.platform === 'win32' ? 'python' : 'python3';
+    const build = (out) => execFileSync(python, [fileURLToPath(script), out], {encoding: 'utf8'}).trim();
     const a = join(root, 'a'), b = join(root, 'b');
     const revision = build(a);
     assert.equal(build(b), revision);
@@ -17,7 +19,11 @@ test('Pages release isolates all imports and fonts under the same deterministic 
     const html = await readFile(join(a, 'index.html'), 'utf8');
     assert.ok(html.includes(`src="assets/${revision}/js/main.js"`));
     assert.ok(html.includes(`href="assets/${revision}/style.css"`));
-    const base = new URL(`file://${a}/assets/${revision}/`);
+    const sourceHtml = await readFile(new URL('../app/index.html', import.meta.url), 'utf8');
+    assert.equal(html, sourceHtml.replace(/\r\n/g, '\n')
+      .replace('"style.css"', `"assets/${revision}/style.css"`)
+      .replace('"js/main.js"', `"assets/${revision}/js/main.js"`));
+    const base = pathToFileURL(join(a, 'assets', revision) + sep);
     const visited = new Set();
     async function imports(url) {
       if (visited.has(url.href)) return;

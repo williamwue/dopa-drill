@@ -10,7 +10,7 @@ import { catalogs } from '../app/js/i18n.js';
 test('textbook mappings declare partial coverage and support shared review skills', () => {
   const books = Object.values(CURRICULA).filter(c => c.id !== 'general-calculation');
   const mapped = books.flatMap(c => c.units.flatMap(u => u.skills));
-  assert.equal(mapped.length, 21);
+  assert.equal(mapped.length, 23);
   assert.deepEqual(new Set(mapped), new Set(TEXTBOOK_SKILLS.map(s => s.id)));
   for (const c of books) {
     assert.ok(c.sources.length >= 2);
@@ -87,7 +87,7 @@ test('primary subskills guarantee their advertised constraints, including carry 
 test('signed generators cover zero and all sign pairs with independently verified rational identities', () => {
   const rng = makeRng(7100), signPairs = new Set();
   let zero = false, negativeFraction = false, negativeInteger = false;
-  for (const skill of TEXTBOOK_SKILLS.filter(s => s.id.startsWith('sk7-'))) {
+  for (const skill of TEXTBOOK_SKILLS.filter(s => s.gen[0] === 'rational')) {
     for (let i = 0; i < 500; i++) {
       const p = makeProblem(skill.id, rng);
       const [a, b] = p.operands.map(v => ({n: BigInt(v.n), d: BigInt(v.d)}));

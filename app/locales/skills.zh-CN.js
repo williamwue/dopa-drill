@@ -21,6 +21,8 @@ export default {
   "skills.sk7-sub": "有理数减法",
   "skills.sk7-mul": "有理数乘法",
   "skills.sk7-div": "有理数除法",
+  "skills.sk7-power": "有理数乘方",
+  "skills.sk7-mixed": "有理数混合运算",
 
   'skills.lane.addSub': '加减法',
   'skills.lane.mulDiv': '乘除法',

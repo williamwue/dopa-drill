@@ -436,7 +436,7 @@ async function setupProblem() {
   $$('.pip').forEach((pp, i) => pp.classList.toggle('now', !extra && i === S.qi));
   $('#qtitle').textContent = p.title;
   $('#fraction-note').hidden = !p.signed && !p.cells.some((cell) => cell.cls === 'frac-d' && cell.kind === 'input');
-  $('#fraction-note').textContent = uiText(p.signed ? 'textbook.input' : 'hint.fraction');
+  $('#fraction-note').textContent = uiText(p.expression ? `textbook.${p.operation}Input` : p.signed ? 'textbook.input' : 'hint.fraction');
   $('#minus-key').hidden = !p.signed;
   $('#pad').classList.toggle('signed', !!p.signed);
   $('#qno').textContent = extra ? `EX ${S.extra.solved + 1}` : uiText('ui.main.message142', { value1: S.qi + 1 });

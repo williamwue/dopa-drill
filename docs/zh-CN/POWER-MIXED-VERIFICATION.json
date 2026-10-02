@@ -1,0 +1,88 @@
+{
+  "date": "2026-10-02",
+  "baseCommit": "6697329791b9e9cfb9b00040986584599971d867",
+  "status": "locally-verified-publication-pending",
+  "skills": {
+    "primary": 15,
+    "secondary": 8,
+    "general": 58,
+    "total": 81,
+    "new": [
+      "sk7-power",
+      "sk7-mixed"
+    ]
+  },
+  "scope": {
+    "power": "整数与分数底数，指数2至4；负底数、奇偶次方、零和括号外负号。",
+    "mixed": "括号、四则运算、2至3次方及括号内和差的平方；同级从左到右；除数不为零。",
+    "excluded": [
+      "零指数、负指数、分数指数",
+      "自由表达式答案输入",
+      "数轴、分类及完整有理数章节"
+    ]
+  },
+  "validation": {
+    "os": "Windows",
+    "node": "22.23.2",
+    "python": "3.11.9",
+    "baselineTests": "76/76 after fixing Windows release compatibility",
+    "featureTests": "80/80; no skipped or cancelled tests",
+    "independentEquationSamples": 2000,
+    "generatorLayoutSamples": "81 skills x 250 questions",
+    "releaseRevision": "8aa550ea59083522",
+    "browser": "T3 collaborative browser; normal UI button/keyboard events; no answer, score or timer modification",
+    "local": [
+      {
+        "flow": "power",
+        "questions": 6,
+        "mistakes": 1,
+        "score": 100
+      },
+      {
+        "flow": "mixed",
+        "questions": 6,
+        "mistakes": 1,
+        "score": 100
+      },
+      {
+        "flow": "review",
+        "questions": 2,
+        "remaining": 0
+      },
+      {
+        "flow": "extra",
+        "seconds": 90,
+        "questions": 9,
+        "extraScore": 270,
+        "totalScore": 370
+      },
+      {
+        "flow": "final mixed artifact",
+        "questions": 6,
+        "mistakes": 0,
+        "score": 100
+      }
+    ],
+    "viewport": {
+      "power": "320x740",
+      "mixed": "320x740 including six-row wrapped fractions",
+      "baselinePrimary": "390x844"
+    },
+    "storage": "Baseline save copied to LAN origin as a test fixture; subsequent same-origin artifact updates and language switches retained old/new records. No domain migration feature implemented.",
+    "locale": "Chinese/Japanese switch retained six history IDs, power count 7, mixed count 28, empty review queue"
+  },
+  "production": {
+    "checked": true,
+    "pagesStatus": "built",
+    "pagesCommit": "fa8c6cab3e305e53d24b072cb1ae7dc44d5ba6c5",
+    "releaseRevision": "7875724300aebc88",
+    "practice": "Six rational-division questions; one mistake; 100 points; one review question; refresh retained both records",
+    "newSkillsDeployed": false
+  },
+  "evidenceDirectory": "G:/Projects/_ops-local/dopa-drill-20261002-verification",
+  "limitations": [
+    "未执行真实手机硬件测试、目标年级儿童试用或大陆网络质量测量。",
+    "macOS/Linux 本轮未重新执行测试。",
+    "预览宿主出现 Electron 报错和部分无效点击；应用错误监听为空。预览客户端变化后改用局域网连接。"
+  ]
+}

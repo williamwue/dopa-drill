@@ -21,6 +21,8 @@ export default {
   "skills.sk7-sub": "有理数の減法",
   "skills.sk7-mul": "有理数の乗法",
   "skills.sk7-div": "有理数の除法",
+  "skills.sk7-power": "有理数の累乗",
+  "skills.sk7-mixed": "有理数の混合計算",
 
   'skills.lane.addSub': 'たし・ひき',
   'skills.lane.mulDiv': 'かけ・わり',

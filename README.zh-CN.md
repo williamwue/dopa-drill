@@ -2,7 +2,11 @@
 
 在小学与初一计算练习中，逐位输入答案，享受逐渐丰富的音乐、角色动作和庆祝动画。
 
-**通用计算 + 苏州教材计算专项。** 首页可选择苏教版三年级上册（2025 秋目录）或苏科版七年级上册（2024 修订目录），分别提供 15 项计算专项与 6 项有理数专项。只覆盖列明的技能，未覆盖单元会明确标注；目录依据见[教材适配基准](docs/zh-CN/TEXTBOOK-BASELINE.md)。通用课程保留原项目编排，能力初测仅用于安排练习。
+**通用计算 + 苏州教材计算专项。** 首页可选择苏教版三年级上册（2025 秋目录）或苏科版七年级上册（2024 修订目录），分别提供 15 项计算专项与 8 项有理数专项。只覆盖列明的技能，未覆盖单元会明确标注；目录依据见[教材适配基准](docs/zh-CN/TEXTBOOK-BASELINE.md)。通用课程保留原项目编排，能力初测仅用于安排练习。
+
+2026-10-02 新增乘方与混合运算已完成本地验证，尚未发布到上述公开体验站。
+乘方提供 2–4 次方，区分 `(-2)²` 与 `−2²`；混合运算含括号、乘方与带符号四则运算，
+同级运算从左到右，分数答案要求最简分数。详细范围和验证见[本轮记录](docs/zh-CN/POWER-MIXED-VERIFICATION.json)。
 
 [打开中文体验版](https://williamwue.github.io/dopa-drill/) · [切换日语](https://williamwue.github.io/dopa-drill/?lang=ja)
 
@@ -13,6 +17,10 @@
 ```sh
 python3 -m http.server 8000 -d app
 ```
+
+Windows PowerShell 使用 `python -m http.server 8000 -d app`；发布构建同样使用
+`python tools/build_preview.py <空输出目录>`。构建工具按 UTF-8 读写，并使用统一的文件排序；
+仓库通过 `.gitattributes` 固定文本文件为 LF，以保持不同电脑上的资源版本一致。
 
 打开 http://localhost:8000/ 。默认简体中文；设置中可切换日语，也可使用 `?lang=ja`。切换语言刷新页面，已保存的进度保留。
 
@@ -35,6 +43,8 @@ node --test tests/*.test.mjs
 - [课程配置接口](docs/curriculum-architecture.md)
 - [第一轮验证与部署记录](docs/zh-CN/VERIFICATION.md)
 - [教材专项验证与部署记录](docs/zh-CN/TEXTBOOK-VERIFICATION.md)
+- [乘方与混合运算本地验证](docs/zh-CN/POWER-MIXED-VERIFICATION.json)
+- [真实设备、儿童试用与大陆网络验证表](docs/zh-CN/MANUAL-VALIDATION.json)
 
 ## 更新体验站
 

@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-02",
+  "status": "prepared-not-executed",
+  "target": "Chinese textbook practice including sk7-power and sk7-mixed",
+  "releaseRequirement": "Confirm the tested site revision contains both new skills; the current public release does not.",
+  "privacy": "Record anonymous feedback and device/browser details; do not collect children's names or school identifiers.",
+  "recordFields": ["date", "releaseRevision", "device", "os", "browser", "viewport", "network", "skill", "task", "result", "issue", "reproductionSteps"],
+  "sessions": [
+    {
+      "id": "real-phone",
+      "devices": ["one real Android phone", "one real iPhone"],
+      "tasks": [
+        "Complete six power questions including a negative base and fraction; use the touch minus key and erase a wrong digit.",
+        "Complete six mixed-operation questions including parentheses and a wrapped expression.",
+        "Return to the home page, complete mistake review and reload; check history and progress.",
+        "Test normal sound/animation and reduced animation; observe responsiveness and sound activation.",
+        "Switch apps and return during practice and an extra round; record actual timer behavior.",
+        "Check portrait/landscape and browser bars for clipping or accidental touches."
+      ],
+      "acceptance": "Core flows finish without unrecoverable input errors, persistent overlays, clipped controls or lost progress. Record any performance issue with the device and reproduction steps."
+    },
+    {
+      "id": "grade-seven-trial",
+      "tasks": [
+        "Ask the learner to explain the difference between (-2)^2 and -2^2, and odd/even powers of negative values.",
+        "Observe sign input and denominator-then-numerator entry on a fraction answer.",
+        "Ask the learner to state operation order before answering mixed questions.",
+        "Observe the meaning of a continued expression on the next line.",
+        "Ask the learner to erase an incorrect digit, finish practice and find mistake review."
+      ],
+      "acceptance": "Separate calculation errors from input/reading errors; record every step needing adult help. Successful automated answering does not prove educational effectiveness."
+    },
+    {
+      "id": "grade-three-regression-trial",
+      "tasks": ["Complete a carry multiplication practice and a zero-quotient practice.", "Observe column-by-column entry, error correction and review."],
+      "acceptance": "Record comprehension and interaction issues independently of the new grade-seven features."
+    },
+    {
+      "id": "mainland-network",
+      "networks": ["one China mainland broadband connection", "one China mainland mobile connection"],
+      "tasks": ["Record a cold load and a warm reload on the same device.", "Check failed font/module requests, loading time and the actual release revision.", "Complete a short practice and reload; confirm local records remain available."],
+      "acceptance": "Report measured loading behavior and failures for each network; use the results to decide whether hosting changes are needed."
+    }
+  ]
+}

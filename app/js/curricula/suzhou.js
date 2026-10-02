@@ -131,7 +131,9 @@ export default [
           "sk7-add",
           "sk7-sub",
           "sk7-mul",
-          "sk7-div"
+          "sk7-div",
+          "sk7-power",
+          "sk7-mixed"
         ],
         "source": "https://www.haoduoyun.cc/book/sjb/shuxue/mf7s.shtml",
         "status": "partial"

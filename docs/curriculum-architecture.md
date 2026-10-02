@@ -16,12 +16,27 @@ Skill names and lane labels use flat `skills.*` keys in `app/locales/skills.zh-C
 
 `curricula/suzhou.js` adds `suzhou-g3-upper` (2025 autumn directory) and `suzhou-g7-upper` (2024 revised directory). Metadata records public index sources; `partial` means only the listed calculation skills, while `uncovered` units have no entry buttons. Textbook units use `title` for the original Chinese directory title. `curriculumUnitsForSkill` returns all matching units; grade skill lists deduplicate shared review items. The singular unit accessor remains compatible and returns the first match.
 
-`textbook-skills.js` defines 21 new IDs (15 primary, 6 secondary). `TEXTBOOK_SKILLS` exposes these definitions and `ALL_SKILLS` combines both catalogs. `SKILL` indexes all 79 skills; `SKILLS`, default placement, the general tree and existing skill-count trophies retain their original 58-skill scope. New skills have no general grade; curriculum placement remains separate from timing. Textbook entry buttons show their own saved count and stars. They use the normal practice, score, growth, review and extra-round paths, keyed by the new IDs. General refresh practice excludes textbook skills, and time capsules are constrained to the selected practice skill or general catalog.
+`textbook-skills.js` defines 23 new IDs (15 primary, 8 secondary). `TEXTBOOK_SKILLS` exposes these definitions and `ALL_SKILLS` combines both catalogs. `SKILL` indexes all 81 skills; `SKILLS`, default placement, the general tree and existing skill-count trophies retain their original 58-skill scope. New skills have no general grade; curriculum placement remains separate from timing. Textbook entry buttons show their own saved count and stars. They use the normal practice, score, growth, review and extra-round paths, keyed by the new IDs. General refresh practice excludes textbook skills, and time capsules are constrained to the selected practice skill or general catalog.
 
 `rational.js` uses BigInt arithmetic and stores reduced `{ n, d }` strings, with positive denominator and canonical zero `0/1`. New signed problems store this exact answer alongside the existing answer string, so localStorage never receives a BigInt. Integer answers are entered left to right, including a minus when needed; reduced fractions use the existing denominator-then-numerator cells. The minus key is visible throughout signed practice, including positive answers, and does not add a keypad row. Non-reduced equivalent fractions are not free-form submissions: the UI explicitly requests a reduced fraction in the guided cells. A `titleKey` keeps new problem signatures stable across languages. Original answer strings, signatures, storage version and IDs are unchanged.
 
 The homepage selection is stored separately as `dopa-curriculum`; invalid or missing values fall back to general practice. Textbook selection does not change the saved general placement. There is no account or per-child profile in this release.
 
+`sk7-power` adds positive-integer exponents 2–4 on integer/fraction bases, including zero,
+negative bases and an outside minus. `sk7-mixed` adds arithmetic precedence, parentheses,
+powers (2–3, with squared parenthesized sums), and division followed by multiplication
+from left to right. `rational-expression.js` evaluates JSON-safe expression trees with
+exact rational arithmetic and renders parentheses that preserve their meaning. Long
+expressions wrap at their outer binary operator; parentheses stay together. Divisors
+are nonzero. No floating-point answer evaluation or arbitrary expression evaluation is used.
+Zero/negative/fractional exponents, free-form expression entry, and full chapter coverage
+are outside this release. Saved question cells and the expression tree contain strings
+and ordinary numbers, so the storage version remains unchanged.
+
 ## Static release cache isolation
 
 `tools/build_preview.py` copies the complete browser resource graph into `assets/<content hash>/` and rewrites the two HTML entry URLs. Relative imports then inherit the same versioned base, including locale modules and CSS font paths. This is required for GitHub Pages, which does not apply the `_headers` file. Source modules stay directly testable; only the published artifact has versioned paths. The release directory also contains `release.json` for checking the live revision. Publishing copies the built files into the existing Pages branch without dropping previous immutable asset directories.
+
+The builder uses UTF-8 and sorts relative POSIX path strings, avoiding Windows locale
+encoding and case-insensitive `Path` ordering. `.gitattributes` fixes text checkouts to LF.
+The release test uses native file paths, encoded file URLs and `python` on Windows.

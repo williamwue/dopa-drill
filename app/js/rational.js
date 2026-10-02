@@ -16,4 +16,8 @@ export function calculate(a, op, b) {
   if (op === 'div') return rational(n * e, d * m);
   throw new RangeError(`Unknown rational operation: ${op}`);
 }
+export function power(a, exponent) {
+  if (!Number.isSafeInteger(exponent) || exponent < 1) throw new RangeError('Exponent must be a positive integer');
+  return rational(BigInt(a.n) ** BigInt(exponent), BigInt(a.d) ** BigInt(exponent));
+}
 export const rationalText = ({ n, d }) => d === '1' ? n : `${n}/${d}`;

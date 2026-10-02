@@ -4,6 +4,7 @@
 //   column add/sub (with decimals), column multiplication, long division,
 //   and horizontal expressions (integers, decimals, fractions, remainders).
 import { rational, calculate, rationalText } from './rational.js';
+import { evaluateExpression, expressionTokens, expressionText } from './rational-expression.js';
 import { SKILL } from './skills.js';
 import { t } from './i18n.js';
 import jaContent from '../locales/content.ja.js';
@@ -329,6 +330,54 @@ function fracAns(n, d, mixed) {
 const fracTok = (n, d, whole) => ({ f: [n, d, whole] });
 
 const GEN = {
+  rationalExpression(rng, { mode }) {
+    const r = R(rng);
+    const value = (nonzero = false) => {
+      let n = r(-5, 5);
+      if (nonzero && n === 0) n = rng() < 0.5 ? -1 : 1;
+      return { type: 'value', value: rational(n, rng() < 0.5 ? 1 : r(2, 5)) };
+    };
+    const binary = (type, left, right) => ({ type, left, right });
+    const raised = (base, exponent = r(2, 3)) => ({ type: 'power', base, exponent });
+    let expression, variant;
+    if (mode === 'power') {
+      variant = rng() < 0.3 ? 'outside-minus' : 'base-power';
+      const base = variant === 'outside-minus'
+        ? { type: 'value', value: rational(r(1, 5), rng() < 0.5 ? 1 : r(2, 5)) } : value();
+      expression = raised(base, r(2, 4));
+      if (variant === 'outside-minus') expression = { type: 'negate', operand: expression };
+    } else {
+      variant = pickOf(rng, ['precedence', 'brackets', 'power-first', 'power-brackets', 'left-to-right']);
+      const a = value(), b = value(), c = value(true);
+      const sum = pickOf(rng, ['add', 'sub']), product = pickOf(rng, ['mul', 'div']);
+      if (variant === 'precedence') expression = binary(sum, a, binary(product, b, c));
+      if (variant === 'brackets') expression = binary(product, binary(sum, a, b), c);
+      if (variant === 'power-first') expression = binary(sum, raised(a), binary(product, b, c));
+      if (variant === 'power-brackets') expression = binary(sum, raised(binary(sum, a, b), 2), c);
+      if (variant === 'left-to-right') expression = binary('mul', binary('div', a, { type: 'value', value: rational(r(1, 5)) }), c);
+    }
+    const result = evaluateExpression(expression), answer = rationalText(result);
+    const ans = result.d === '1' ? { ans: result.n } : { fa: [result.n, result.d] };
+    const tokens = expressionTokens(expression);
+    const helpKey = mode === 'power' ? 'textbook.powerHelp' : 'textbook.rationalOrderHelp';
+    const meta = { title: t(`skills.sk7-${mode}`), titleKey: `skills.sk7-${mode}`, helpKey,
+      help: t(helpKey), text: expressionText(expression), answer, signed: true,
+      exactAnswer: result, expression, operation: mode, variant };
+    let problem = buildH([...tokens, { br: true }, { op: '＝' }, ans], meta);
+    if (problem.cols > 13) {
+      // Wrap at the outermost binary operator, keeping each parenthesized group intact.
+      let depth = 0;
+      const wrapped = [];
+      for (const token of tokens) {
+        if (token.op === ')') depth--;
+        if (token.breakBefore && depth === 0) wrapped.push({ br: true });
+        wrapped.push(token);
+        if (token.op === '(') depth++;
+      }
+      problem = buildH([...wrapped, { br: true }, { op: '＝' }, ans], meta);
+    }
+    return problem;
+  },
   textbookOrder(rng, { op, bracket }) {
     const r = R(rng), a = r(0, 30), b = r(2, 9), c = r(2, 9);
     const sub = rng() < 0.5;
